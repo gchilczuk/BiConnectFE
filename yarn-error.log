@@ -1,0 +1,67 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js run build
+
+PATH: 
+  C:\Program Files\Common Files\Siemens\Automation\Simatic OAM\bin;C:\Perl64\site\bin;C:\Perl64\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\Paweł\AppData\Local\GitHub\PortableGit_f02737a78695063deace08e96d5042710d3e32db\cmd;C:\Program Files (x86)\Pandoc;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Skype\Phone\;C:\apache-maven-3.5.0\bin;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Common Files\Autodesk Shared\;C:\Program Files (x86)\Autodesk\Backburner\;C:\Program Files\Java\jdk1.8.0_65\bin;C:\Program Files\Oracle\VirtualBox;C:\Program Files\MATLAB\R2016a\runtime\win64;C:\Program Files\MATLAB\R2016a\bin;C:\Program Files\MATLAB\R2016a\polyspace\bin;C:\Users\Paweł\adb-fastboot\platform-tools;C:\Users\Paweł\HeimdallSuite;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files\MacType;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\130\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\130\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\110\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\140\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Yarn\bin\;C:\Program Files\nodejs\;C:\Users\Paweł\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\Paweł\AppData\Local\Programs\Python\Python36-32\;C:\Users\Paweł\AppData\Local\Programs\Python\Python35-32\Scripts\;C:\Users\Paweł\AppData\Local\Programs\Python\Python35-32\;C:\Program Files (x86)\Notepad++;C:\Users\Paweł\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Heroku\bin;C:\Users\Paweł\AppData\Local\atom\bin;C:\Program Files\Docker Toolbox;C:\Users\Paweł\AppData\Local\Yarn\bin;C:\Users\Paweł\AppData\Roaming\npm
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  8.10.0
+
+Platform: 
+  win32 x64
+
+npm manifest: 
+  {
+    "name": "biconnect",
+    "version": "1.0.0",
+    "description": "Aplikacja wspierająca towarzystwo biznesowe.",
+    "author": "Paweł P",
+    "private": true,
+    "scripts": {
+      "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+      "build": "nuxt build",
+      "start": "cross-env NODE_ENV=production node server/index.js",
+      "generate": "nuxt generate",
+      "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+      "precommit": "npm run lint"
+    },
+    "dependencies": {
+      "nuxt": "^1.0.0",
+      "express": "^4.15.3",
+      "element-ui": "^1.4.9",
+      "@nuxtjs/axios": "^5.0.0"
+    },
+    "devDependencies": {
+      "cross-env": "^5.0.1",
+      "babel-eslint": "^8.2.1",
+      "eslint": "^4.15.0",
+      "eslint-loader": "^1.7.1",
+      "eslint-plugin-vue": "^4.0.0",
+      "nodemon": "^1.11.0"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Command failed.
+  Exit code: 1
+  Command: C:\WINDOWS\system32\cmd.exe
+  Arguments: /d /s /c nuxt build
+  Directory: C:\Users\Paweł\Desktop\Materiały na studia\Semestr 6\ZPI\fe\biconnect
+  Output:
+  
+      at ProcessTermError.MessageError (C:\Program Files (x86)\Yarn\lib\cli.js:186:110)
+      at new ProcessTermError (C:\Program Files (x86)\Yarn\lib\cli.js:226:113)
+      at ChildProcess.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:30281:17)
+      at emitTwo (events.js:126:13)
+      at ChildProcess.emit (events.js:214:7)
+      at maybeClose (internal/child_process.js:925:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)
