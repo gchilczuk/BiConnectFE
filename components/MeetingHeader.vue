@@ -1,8 +1,8 @@
 <template>
     <div>
-      <span>Spotkanie</span>
-      <el-date-picker type="date" v-model="meetingDate" align="center"></el-date-picker>
-      <el-button type="primary" icon="el-icon-document">Search</el-button>
+      <span class=" mhelement ; meetings" >Spotkanie</span>
+      <el-date-picker type="date" v-model="meetingDate" class="mhlement"></el-date-picker>
+      <el-button v-on:click="generateNote"  type="primary" icon="el-icon-document" class="mhelement">Generuj notatkę</el-button>
     </div>
 </template>
 
@@ -13,10 +13,22 @@
           return{
               meetingDate : ''
           }
+      },
+      methods:{
+          generateSpeech(){
+            alert("generated")
+          }
       }
     }
 </script>
 
 <style scoped>
+  .meetings{
+    font-size:45px;
+  }
 
+ .mhelement{
+  margin-right:50px;
+   margin-left:50px;
+}
 </style>
