@@ -1,6 +1,7 @@
 <template>
   <section class="container">
     <div>
+      <navigation/>
       <logo/>
       <h1 class="title">
         biconnect
@@ -18,9 +19,11 @@
 
 <script>
 import Logo from '~/components/Logo.vue'
+import Navigation from "../components/Navigation";
 
 export default {
   components: {
+    Navigation,
     Logo
   }
 }
