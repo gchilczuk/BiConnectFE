@@ -1,7 +1,7 @@
 <template>
 <div>
   <h1 class="speeches" >Wystąpienia:</h1>
-  <p> <el-button v-on:click="addNewSpeech" class="buttonaddspeech" ><i class="el-icon-plus"></i>Dodaj nowe wystąpienie</el-button> </p>
+  <p> <el-button  class="buttonaddspeech" ><nuxt-link to="/"> <i class="el-icon-plus"></i>Dodaj nowe wystąpienie</nuxt-link></el-button> </p>
   <p> <el-button v-on:click="goToSpeech" class="buttonspeech" type="info" plain >Jan Kowalski </el-button></p>
   <p> <el-button v-on:click="goToSpeech" class="buttonspeech" type="info" plain>Jan Nowak </el-button></p>
   <p> <el-button v-on:click="goToSpeech" class="buttonspeech" type="info" plain>Adam Kowalski </el-button></p>
@@ -13,9 +13,7 @@
     export default {
         name: "MeetingsList",
       methods:{
-          addNewSpeech() {
-            alert("Add");
-          },
+
         goToSpeech() {
           alert("Go");
         }
