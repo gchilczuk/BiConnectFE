@@ -13,7 +13,6 @@
 </template>
 
 <style>
-  @import url("//unpkg.com/element-ui@2.3.3/lib/theme-chalk/index.css");
 html
 {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -60,3 +59,18 @@ html
   background-color: #35495e;
 }
 </style>
+
+<script>
+  export default {
+    data() {
+      return {
+        activeIndex: '1'
+      };
+    },
+    methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+      }
+    }
+  }
+</script>
