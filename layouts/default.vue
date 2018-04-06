@@ -1,10 +1,19 @@
 <template>
   <div>
+    <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+      <el-menu-item index="1">Twoje dane</el-menu-item>
+      <el-menu-item index="2">Twoje potrzeby</el-menu-item>
+      <el-menu-item index="3">Twoje rekomendacje</el-menu-item>
+      <el-menu-item index="4">Spotkania</el-menu-item>
+      <el-menu-item index="5">Statystyki</el-menu-item>
+      <el-menu-item index="6">Wyloguj</el-menu-item>
+    </el-menu>
     <nuxt/>
   </div>
 </template>
 
 <style>
+  @import url("//unpkg.com/element-ui@2.3.3/lib/theme-chalk/index.css");
 html
 {
   font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

@@ -1,12 +1,11 @@
 <template>
     <div>
     <p>Kto:</p>
-      <!--ikonka dzwieku -->
-      <textarea type="text" name="personNamesInput" cols="80" rows="1"  v-model="personNames" />
-      <p>Potrzeba:</p>
-      <textarea type="text" name="needTextInput" cols="80" rows="15" v-model="needText"  />
-      <p>Rekomendacja:</p>
-      <textarea type="text" name="recommendationTextInput" cols="80" rows="15" v-model="recommendationText"/>
+      <el-input  type="text" name="personNamesInput"   v-model="personNames" placeholder="imie nazwisko" />
+      <p><br/>Potrzeba:</p>
+      <el-input type="textarea" name="needTextInput" :autosize="{ minRows: 5}"  v-model="needText" placeholder="potrzeba"  />
+      <p><br/>Rekomendacja:</p>
+      <el-input type="textarea" name="recommendationTextInput"  :autosize="{ minRows: 5}" v-model="recommendationText" placeholder="rekomendacja"/>
 
     </div>
 </template>
@@ -16,9 +15,9 @@
         name: "Secretary_Forms",
       data(){
           return{
-            personNames : 'Jan Kowalski',
-            needText: 'potrzeba',
-            recommendationText : 'rekomandacja'
+            personNames : '',
+            needText: '',
+            recommendationText : ''
           }
       }
 
