@@ -2,7 +2,7 @@
     <div>
       <h1>Spotkania</h1>
       <meeting-picker/>
-      <el-button type="success"  v-on:click="addNew()">Dodaj wystąpienie</el-button>
+      <nuxt-link to="testpage"><el-button type="success">Dodaj wystąpienie</el-button></nuxt-link>
     </div>
 </template>
 
@@ -11,12 +11,7 @@
 
     export default {
       components: {MeetingPicker},
-      name: "secretary-main",
-      methods: {
-        addNew() {
-          alert('Spotkanie dodane');
-        }
-      }
+      name: "secretary-main"
     }
 </script>
 
