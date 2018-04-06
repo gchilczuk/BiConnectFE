@@ -4,7 +4,7 @@
       <el-menu-item index="1">Twoje dane</el-menu-item>
       <el-menu-item index="2">Twoje potrzeby</el-menu-item>
       <el-menu-item index="3">Twoje rekomendacje</el-menu-item>
-      <el-menu-item index="4">Spotkania</el-menu-item>
+      <el-menu-item index="4"><nuxt-link to="secretaryMain">Spotkania</nuxt-link></el-menu-item>
       <el-menu-item index="5">Statystyki</el-menu-item>
       <el-menu-item index="6">Wyloguj</el-menu-item>
     </el-menu>

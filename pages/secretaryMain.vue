@@ -2,7 +2,7 @@
     <div>
       <h1>Spotkania</h1>
       <meeting-picker/>
-      <nuxt-link to="testpage"><el-button type="success">Dodaj wystąpienie</el-button></nuxt-link>
+      <nuxt-link to="testpage"><el-button type="success">Dodaj spotkanie</el-button></nuxt-link>
     </div>
 </template>
 
