@@ -30,5 +30,6 @@
  .mhelement{
   margin-right:50px;
    margin-left:50px;
+   margin-bottom: 30px;
 }
 </style>
