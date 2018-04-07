@@ -7,7 +7,7 @@
         </el-aside>
       </div>
       <el-main>
-        main
+        <speech-form></speech-form>
       </el-main>
     </el-container>
 
@@ -16,10 +16,12 @@
 
 <script>
   import SpeechesList from "../components/SpeechesList";
+  import SpeechForm from "../components/SpeechForm"
 
   export default {
     components: {
-      SpeechesList
+      SpeechesList,
+      SpeechForm
     }
 
   }
