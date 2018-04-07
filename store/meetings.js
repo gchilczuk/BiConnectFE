@@ -10,20 +10,18 @@ export const state = () => ({
   }
 })
 
+export const getters = {
+  activeSpeech: state => state.activeSpeech,
+  speechName: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).name },
+  // speechNeeds: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).needs },
+  // speechRecommendations: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).recommendations }
+}
+
 export const mutations = {
   setActiveSpeech (state, ind) {
     state.activeSpeech = ind
   },
 }
 
-export const getters = {
-  activeSpeech: state => state.activeSpeech,
-  speechName: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).name },
-  speechNeeds: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).needs },
-  speechRecommendations: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).recommendations }
-}
-
-
 export const actions = {
-
 }
