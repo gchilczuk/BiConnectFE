@@ -1,6 +1,13 @@
 export const state = () => ({
-  speeches: [],
-  activeSpeech: null
+  meeting: {
+    id: null,
+    date: null,
+    group: null,
+    numberOfMembers: null,
+    numberOfGuests: null,
+    speeches: [],
+    activeSpeech: null
+  }
 })
 
 export const mutations = {
