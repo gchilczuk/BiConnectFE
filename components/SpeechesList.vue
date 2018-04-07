@@ -1,44 +1,78 @@
 <template>
-<div>
-  <h1 class="speeches" >Wystąpienia:</h1>
-  <p> <nuxt-link to="formPage"> <el-button  class="buttonaddspeech" type="success"><i class="el-icon-plus"></i>Dodaj nowe wystąpienie</el-button></nuxt-link></p>
-  <p> <el-button v-on:click="goToSpeech" class="buttonspeech" type="info" plain >Jan Kowalski </el-button></p>
-  <p> <el-button v-on:click="goToSpeech" class="buttonspeech" type="info" plain>Jan Nowak </el-button></p>
-  <p> <el-button v-on:click="goToSpeech" class="buttonspeech" type="info" plain>Adam Kowalski </el-button></p>
-  <p> <el-button v-on:click="goToSpeech"  class="buttonspeech" type="info" plain>Jan Kowalski </el-button></p>
-</div>
+  <el-row style="margin: 20px;">
+    <el-row>
+      <span>Spotkanie: 04.05.2018</span>
+    </el-row>
+    <el-row>
+      <el-col>
+        <el-button type="success" plain>
+          <i class="el-icon-plus"></i> Dodaj nowe wystąpienie
+        </el-button>
+      </el-col>
+      <el-col>
+        <el-button type="primary" plain>
+          <i class="el-icon-plus"></i> Generuj notatkę
+        </el-button>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-table
+        :data="tableData"
+        highlight-current-row
+        @current-change="handleCurrentChange">
+        <el-table-column
+          type="index">
+        </el-table-column>
+        <el-table-column
+          property="name"
+          label="Imię">
+        </el-table-column>
+        <el-table-column
+          property="surname"
+          label="Nazwisko">
+        </el-table-column>
+        <el-table-column label="Operations">
+          <template slot-scope="scope">
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)" plain>Usuń</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-row>
+    <div style="margin-top: 20px">
+      <el-button @click="setCurrent()">Clear selection</el-button>
+    </div>
+  </el-row>
 </template>
 
 <script>
-    export default {
-        name: "SpeechesList",
-      methods:{
+  export default {
+    surname: "SpeechesList",
+    data() {
+      return {
+        tableData: [{
+          name: 'Jan',
+          surname: 'Kowalski',
+        }, {
+          name: 'Jan',
+          surname: 'Kowalski',
+        }, {
+          name: 'Jan',
+          surname: 'Kowalski',
+        }, {
+          name: 'Jan',
+          surname: 'Kowalski',
+        }],
+        currentRow: null
+      }
+    },
 
-        goToSpeech() {
-          alert("Go");
-        }
+    methods: {
+      setCurrent(row) {
+        this.$refs.singleTable.setCurrentRow(row);
+      },
+      handleCurrentChange(val) {
+        this.currentRow = val;
       }
     }
+  }
 </script>
-
-<style scoped>
-  .speeches{
-    margin-left:50px;
-    padding-bottom:20px;
-  }
-
-
-  .buttonaddspeech{
-    margin-left:50px;
-    font-size: 25px;
-    height:60px;
-    width:500px;
-   margin-bottom: 10px;
-  }
-
-  .buttonspeech{
-    margin-left:50px;
-    height:40px;
-    width:500px;
-  }
-</style>
