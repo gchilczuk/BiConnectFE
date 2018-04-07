@@ -6,12 +6,19 @@ export const state = () => ({
     numberOfMembers: null,
     numberOfGuests: null,
     speeches: [],
-    activeSpeech: null
+    activeSpeechInd: null
   }
 })
 
 export const mutations = {
-  setActiveSpeech (ind) {
+  setActiveSpeech (state, ind) {
     state.activeSpeech = ind
   }
+}
+
+export const getters = {
+}
+
+export const actions = {
+
 }

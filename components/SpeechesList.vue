@@ -4,16 +4,18 @@
       <span>Spotkanie: 04.05.2018</span>
     </el-row>
     <el-row>
-      <el-col :span="12">
-        <el-button type="success" plain>
-          <i class="el-icon-plus"></i> Dodaj nowe wystąpienie
-        </el-button>
-      </el-col>
-      <el-col :span="12">
-        <el-button type="primary" plain>
-          <i class="el-icon-document"></i> Generuj notatkę
-        </el-button>
-      </el-col>
+      <b-row >
+        <b-col>
+          <el-button type="success" plain>
+            <i class="el-icon-plus"></i> Dodaj nowe wystąpienie
+          </el-button>
+        </b-col>
+        <b-col class="text-right">
+          <el-button type="primary" plain>
+            <i class="el-icon-document"></i> Generuj notatkę
+          </el-button>
+        </b-col>
+      </b-row>
     </el-row>
     <el-row>
       <el-table
@@ -49,6 +51,7 @@
     surname: "SpeechesList",
     data() {
       return {
+        input: 'asdasd',
         tableData: [{
           name: 'Jan',
           surname: 'Kowalski',

@@ -1,15 +1,14 @@
 <template>
   <div>
-    <el-container>
-      <div>
-        <el-aside width="600px">
-          <speeches-list></speeches-list>
-        </el-aside>
-      </div>
-      <el-main>
+    <b-row>
+      <b-col>
+        <speeches-list></speeches-list>
+      </b-col>
+      <b-col>
         <speech-form></speech-form>
-      </el-main>
-    </el-container>
+      </b-col>
+
+    </b-row>
 
   </div>
 </template>
