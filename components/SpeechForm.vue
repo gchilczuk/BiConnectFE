@@ -1,68 +1,99 @@
 <template>
-  <div class="m-3">
-    <el-row class="p-1p">
-      <el-col :span="4">
-        <label class="input-label" for="personNamesInput">Kto:</label>
-      </el-col>
-      <el-col :span="20">
+  <div>
+    <el-form label-width="120px">
+      <el-form-item label="Osoba">
         <el-input id="personNamesInput" name="personNamesInput"
                   type="text"
-                  v-model="personNames"
-                  placeholder="imie nazwisko"/>
-      </el-col>
-    </el-row>
+                  v-model="speechName"
+                  placeholder="Imię i nazwisko osoby prezentującej"
+                  @blur="quickSave"></el-input>
+      </el-form-item>
 
-    <el-row class="p-1p">
-      <el-col :span="4">
-        <label class="input-label" for="needTextInput">Potrzeba:</label>
-      </el-col>
-      <el-col :span="20">
-        <el-input id="needTextInput" name="needTextInput"
+      <el-form-item>
+        Potrzeby<br/>
+        <el-button type="primary" @click="addNeed" size="small" plain>Nowa potrzeba</el-button>
+        <el-button type="primary" @click="decreaseNeed" size="small" plain>usuń</el-button>
+      </el-form-item>
+      <el-form-item v-for="nr in needCounter" v-bind:key="nr" v-bind:label="'Potrzeba '+nr">
+        <el-input v-bind:key="nr" name="needTextInput"
                   :autosize="{ minRows: 4}"
                   type="textarea"
-                  v-model="needText"
-                  placeholder="potrzeba"/>
-      </el-col>
-    </el-row>
+                  v-model="speechNeeds"
+                  placeholder="Potrzeba zgłoszona przez osobę prezentującą"
+                  @blur="quickSave"></el-input>
+      </el-form-item>
 
-    <el-row class="p-1p">
-      <el-col :span="4">
-        <label for="recommendationTextInput">Rekomendacja:</label>
-      </el-col>
-      <el-col :span="20">
-        <el-input id="recommendationTextInput" name="recommendationTextInput"
-                  :autosize="{ minRows: 5}"
+      <el-form-item>
+        Rekomendacje <br/>
+        <el-button type="primary" @click="addRecommendation" size="small" plain>Nowa rekomendacja</el-button>
+        <el-button type="primary" @click="decreaseRecommendation" size="small" plain>usuń</el-button>
+      </el-form-item>
+      <el-form-item v-for="nr in recommendCounter" v-bind:key="nr" v-bind:label="'Rekomendacja '+nr">
+        <el-input v-bind:key="nr" name="needTextInput"
+                  :autosize="{ minRows: 4}"
                   type="textarea"
-                  v-model="recommendationText"
-                  placeholder="rekomendacja"/>
-      </el-col>
+                  v-model="speechRecommendations"
+                  placeholder="Rekomendacja osoby prezentującej"
+                  @blur="quickSave"></el-input>
+      </el-form-item>
 
-    </el-row>
-
-    <el-row class="p-1p">
-      <el-button type="primary">Zapisz</el-button>
-    </el-row>
-
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">Zapisz</el-button>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
-  import ElContainer from "element-ui/packages/container/src/main";
-  import ElMain from "element-ui/packages/main/src/main";
-  import ElRow from "element-ui/packages/row/src/row";
+  import {mapGetters} from 'vuex'
 
   export default {
-    components: {
-      ElRow,
-      ElMain,
-      ElContainer
-    },
-    name: "Secretary_Forms",
+    name: "SpeechForm",
     data() {
       return {
-        personNames: '',
-        needText: '',
-        recommendationText: ''
+        needCounter: 0,
+        recommendCounter: 0,
+      }
+    },
+    computed: {
+      speechName:{
+        get() {return this.$store.getters.speechName},
+      },
+      speechNeeds:{
+        get() {return this.$store.getters.speechNeeds},
+      },
+      speechRecommendations:{
+        get() {return this.$store.getters.speechRecommendations},
+      }
+    },
+
+    methods: {
+      addNeed() {
+        this.needCounter += 1
+      },
+      decreaseNeed() {
+        if (this.needCounter > 0)
+          this.needCounter -= 1
+      },
+      addRecommendation() {
+        this.recommendCounter += 1
+      },
+      decreaseRecommendation() {
+        if (this.needCounter > 0)
+          this.recommendCounter -= 1
+      },
+      quickSave() {
+        this.$store.dispatch('saveSpeech', this.speech)
+      },
+      onSubmit() {
+        this.speech.needs = this.speech.needs.slice(0, this.needCounter)
+        this.speech.recommendations = this.speech.recommendations.slice(0, this.recommendCounter)
+        quickSave()
+        this.$notify({
+          title: 'Zapisano wystąpienie',
+          type: 'success',
+          duration: 2000
+        })
       }
     }
 
@@ -74,6 +105,7 @@
   .m-3 {
     margin: 30px;
   }
+
   .p-1p {
     padding: 2%;
   }
