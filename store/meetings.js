@@ -16,9 +16,6 @@ export const mutations = {
   },
 }
 
-export const actions = {
-}
-
 export const getters = {
   activeSpeech: state => state.activeSpeech,
   speechName: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).name },
@@ -26,8 +23,6 @@ export const getters = {
   speechRecommendations: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).recommendations }
 }
 
-export const getters = {
-}
 
 export const actions = {
 
