@@ -6,7 +6,7 @@
     <el-row>
       <b-row >
         <b-col>
-          <el-button type="success" plain>
+          <el-button @click="addNewSpeech" type="success" plain>
             <i class="el-icon-plus"></i> Dodaj nowe wystąpienie
           </el-button>
         </b-col>
@@ -74,7 +74,10 @@
         this.$refs.singleTable.setCurrentRow(row);
       },
       handleCurrentChange(val) {
-        this.currentRow = val;
+        console.log(val)
+      },
+      addNewSpeech() {
+        this.$store.dispatch('addNewSpeech')
       }
     }
   }

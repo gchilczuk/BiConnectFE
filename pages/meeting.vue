@@ -1,10 +1,10 @@
 <template>
   <div>
     <b-row>
-      <b-col>
+      <b-col cols="5">
         <speeches-list></speeches-list>
       </b-col>
-      <b-col>
+      <b-col cols="7">
         <speech-form></speech-form>
       </b-col>
 
