@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-form label-width="120px">
+    <el-form label-width="120px" v-if="activeSpeech">
       <el-form-item label="Osoba">
         <el-input id="personNamesInput" name="personNamesInput"
                   type="text"
                   v-model="speechName"
                   placeholder="Imię i nazwisko osoby prezentującej"
-                  @blur="quickSave"></el-input>
+                  @blur="quickSave" />
       </el-form-item>
 
       <el-form-item>
@@ -20,7 +20,7 @@
                   type="textarea"
                   v-model="speechNeeds"
                   placeholder="Potrzeba zgłoszona przez osobę prezentującą"
-                  @blur="quickSave"></el-input>
+                  @blur="quickSave"/>
       </el-form-item>
 
       <el-form-item>
@@ -34,7 +34,7 @@
                   type="textarea"
                   v-model="speechRecommendations"
                   placeholder="Rekomendacja osoby prezentującej"
-                  @blur="quickSave"></el-input>
+                  @blur="quickSave"/>
       </el-form-item>
 
       <el-form-item>
@@ -56,8 +56,14 @@
       }
     },
     computed: {
+      activeSpeech: {
+        get() {
+          console.log('ELOELO', this.$store.getters.activeSpeechInd)
+          return this.$store.getters.activeSpeechInd || 1},
+      },
       speechName:{
         get() {return this.$store.getters.speechName},
+        set(value){}
       },
       speechNeeds:{
         get() {return this.$store.getters.speechNeeds},
@@ -83,6 +89,8 @@
           this.recommendCounter -= 1
       },
       quickSave() {
+        console.log('ELOELO', this.$store.getters.activeSpeechInd)
+
         this.$store.dispatch('saveSpeech', this.speech)
       },
       onSubmit() {
