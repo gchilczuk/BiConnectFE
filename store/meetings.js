@@ -6,22 +6,82 @@ export const state = () => ({
     numberOfMembers: null,
     numberOfGuests: null,
     speeches: [],
-    activeSpeechInd: 1
+    activeSpeechInd: null
   }
 })
 
 export const getters = {
-  activeSpeechInd: state => state.activeSpeechInd,
-  speechName: state => state.speeches.find(speech => speech.id === state.activeSpeech).name ,
-  speechNeeds: state => state.speeches.find(speech => speech.id === state.activeSpeech).needs,
-  speechRecommendations: state => state.speeches.find(speech => speech.id === state.activeSpeech).recommendations
+  activeSpeechInd: state => state.meeting.activeSpeechInd,
+  speeches: state => state.meeting.speeches
 }
 
 export const mutations = {
-  setActiveSpeech (state, ind) {
-    state.activeSpeech = ind
+  SET_ACTIVE_SPEECH (state, ind) {
+    state.meeting.activeSpeechInd = ind
   },
+  SET_SPEECHES (state, speeches) {
+    state.meeting.speeches = speeches
+  }
 }
 
 export const actions = {
+  setActiveSpeech({commit}, ind) {
+    commit('SET_ACTIVE_SPEECH', ind)
+  },
+  fetchData({commit}) {
+    const speeches = [{
+      id: 1,
+      name: 'Jan',
+      surname: 'Kowalski'
+    }, {
+      id: 2,
+      name: 'Paweł',
+      surname: 'Nowak'
+    }, {
+      id: 3,
+      name: 'Anna',
+      surname: 'Nowak'
+    }, {
+      id: 4,
+      name: 'Kazimierz',
+      surname: 'Prawdziwy'
+    }]
+    commit('SET_SPEECHES', speeches)
+  },
+  addNewSpeech({commit}) {
+    const speeches = [{
+      id: 1,
+      name: 'Jan',
+      surname: 'Kowalski'
+    }, {
+      id: 2,
+      name: 'Paweł',
+      surname: 'Nowak'
+    }, {
+      id: 3,
+      name: 'Anna',
+      surname: 'Nowak'
+    }, {
+      id: 4,
+      name: 'Kazimierz',
+      surname: 'Prawdziwy'
+    }]
+    commit('SET_SPEECHES', speeches)
+  },
+  removeSpeechById({commit}, ind) {
+    const speeches = [{
+      id: 1,
+      name: 'Jan',
+      surname: 'Kowalski'
+    }, {
+      id: 2,
+      name: 'Paweł',
+      surname: 'Nowak'
+    }, {
+      id: 3,
+      name: 'Anna',
+      surname: 'Nowak'
+    }]
+    commit('SET_SPEECHES', speeches)
+  }
 }

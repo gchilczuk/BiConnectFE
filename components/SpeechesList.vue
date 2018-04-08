@@ -1,10 +1,8 @@
 <template>
-  <el-row style="margin: 20px;">
+  <el-row class="m-4">
+    <h5>Spotkanie: 04.05.2018</h5>
     <el-row>
-      <span>Spotkanie: 04.05.2018</span>
-    </el-row>
-    <el-row>
-      <b-row >
+      <b-row>
         <b-col>
           <el-button @click="addNewSpeech" type="success" plain>
             <i class="el-icon-plus"></i> Dodaj nowe wystąpienie
@@ -19,7 +17,7 @@
     </el-row>
     <el-row>
       <el-table
-        :data="tableData"
+        :data="speeches"
         highlight-current-row
         @current-change="handleCurrentChange">
         <el-table-column
@@ -33,52 +31,43 @@
           property="surname"
           label="Nazwisko">
         </el-table-column>
-        <el-table-column label="Operations">
+        <el-table-column label="Operations" align="right">
           <template slot-scope="scope">
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)" plain>Usuń</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-row>
-    <div style="margin-top: 20px">
-      <el-button @click="setCurrent()">Clear selection</el-button>
-    </div>
   </el-row>
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+
   export default {
     surname: "SpeechesList",
     data() {
       return {
-        input: 'asdasd',
-        tableData: [{
-          name: 'Jan',
-          surname: 'Kowalski',
-        }, {
-          name: 'Jan',
-          surname: 'Kowalski',
-        }, {
-          name: 'Jan',
-          surname: 'Kowalski',
-        }, {
-          name: 'Jan',
-          surname: 'Kowalski',
-        }],
-        currentRow: null
       }
     },
-
+    computed: {
+      ...mapGetters({
+        speeches: 'meetings/speeches'
+      })
+    },
     methods: {
-      setCurrent(row) {
-        this.$refs.singleTable.setCurrentRow(row);
-      },
       handleCurrentChange(val) {
-        console.log(val)
+        // this.$store.dispatch('meetings/setActiveSpeech', val.id)
       },
       addNewSpeech() {
-        this.$store.dispatch('addNewSpeech')
+        this.$store.dispatch('meetings/addNewSpeech')
+      },
+      handleDelete(index, row) {
+        this.$store.dispatch('meetings/removeSpeechById', index)
       }
+    },
+    mounted() {
+      this.$store.dispatch('meetings/fetchData')
     }
   }
 </script>

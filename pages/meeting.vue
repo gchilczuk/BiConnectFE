@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-row>
+    <b-row :no-gutters="true">
       <b-col cols="5">
         <speeches-list></speeches-list>
       </b-col>
@@ -8,7 +8,6 @@
         <speech-form></speech-form>
       </b-col>
     </b-row>
-
   </div>
 </template>
 
