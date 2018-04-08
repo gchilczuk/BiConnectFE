@@ -12,7 +12,7 @@
       <el-form-item>
         Potrzeby<br/>
         <el-button type="primary" @click="addNeed" size="small" plain>Nowa potrzeba</el-button>
-        <el-button type="primary" @click="decreaseNeed" size="small" plain>usuń</el-button>
+        <el-button type="primary" @click="decreaseNeed" size="small" plain>Usuń</el-button>
       </el-form-item>
       <el-form-item v-for="nr in needCounter" v-bind:key="nr" v-bind:label="'Potrzeba '+nr">
         <el-input v-bind:key="nr" name="needTextInput"
@@ -26,7 +26,7 @@
       <el-form-item>
         Rekomendacje <br/>
         <el-button type="primary" @click="addRecommendation" size="small" plain>Nowa rekomendacja</el-button>
-        <el-button type="primary" @click="decreaseRecommendation" size="small" plain>usuń</el-button>
+        <el-button type="primary" @click="decreaseRecommendation" size="small" plain>Usuń</el-button>
       </el-form-item>
       <el-form-item v-for="nr in recommendCounter" v-bind:key="nr" v-bind:label="'Rekomendacja '+nr">
         <el-input v-bind:key="nr" name="needTextInput"

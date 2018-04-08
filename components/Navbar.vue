@@ -3,8 +3,8 @@
     <el-menu-item index="/">Twoje dane</el-menu-item>
     <el-menu-item index="/">Twoje potrzeby</el-menu-item>
     <el-menu-item index="/">Twoje rekomendacje</el-menu-item>
-    <el-menu-item index="/">Spotkania</el-menu-item>
-    <el-menu-item index="meetings-menu">Statystyki</el-menu-item>
+    <el-menu-item index="meetings-menu">Spotkania</el-menu-item>
+    <el-menu-item index="/">Statystyki</el-menu-item>
     <el-menu-item index="/">Wyloguj</el-menu-item>
   </el-menu>
 </template>
