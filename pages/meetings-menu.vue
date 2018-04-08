@@ -12,15 +12,15 @@
         type="index">
       </el-table-column>
       <el-table-column
-        property="name"
+        property="date"
         label="Data">
       </el-table-column>
       <el-table-column
-        property="surname"
+        property="members"
         label="Liczba członków">
       </el-table-column>
       <el-table-column
-        property="surname"
+        property="guests"
         label="Liczba gości">
       </el-table-column>
     </el-table>
@@ -33,6 +33,23 @@
     data() {
       return {
         meetingDate: null,
+        tableData: [{
+          date: '05-04-2018',
+          members: 15,
+          guests: 1
+        }, {
+          date: '29-03-2018',
+          members: 35,
+          guests: 0
+        }, {
+          date: '15-03-2018',
+          members: 25,
+          guests: 2
+        }, {
+          date: '5-03-2018',
+          members: 35,
+          guests: 0
+        }],
         dataPickerRestriction: {
           disabledDate(time) {
             return time.getTime() > Date.now();
