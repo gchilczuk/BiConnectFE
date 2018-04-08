@@ -64,7 +64,9 @@
         get() {
           return this.$store.getters['meetings/activeSpeechInd'] != null},
       },
-      speeches: this.$store.getters['meetings/speeches'],
+      speeches: function () {
+        return this.$store.getters['meetings/speeches']
+      }
       // needs: this.speeches
     },
 

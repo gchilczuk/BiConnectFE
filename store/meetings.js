@@ -12,7 +12,8 @@ export const state = () => ({
 
 export const getters = {
   activeSpeechInd: state => state.meeting.activeSpeechInd,
-  speeches: state => state.meeting.speeches}
+  speeches: state => state.meeting.speeches
+}
 
 export const mutations = {
   SET_ACTIVE_SPEECH (state, ind) {
