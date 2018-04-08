@@ -53,8 +53,8 @@
     name: "SpeechForm",
     data() {
       return {
-        needCounter: this.$store.getters['meetings/speechNeeds'].length,
-        recommendCounter: this.$store.getters['meetings/speechRecommendations'].length,
+        needCounter: 0, //this.$store.getters['meetings/speechNeeds'].length,
+        recommendCounter: 0, //this.$store.getters['meetings/speechRecommendations'].length,
         needs: this.$store.getters['meetings/speechNeeds'].slice(0),
         recommendations: this.$store.getters['meetings/speechRecommendations'].slice(0)
       }

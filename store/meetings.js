@@ -13,9 +13,9 @@ export const state = () => ({
 export const getters = {
   activeSpeechInd: state => state.meeting.activeSpeechInd,
   speeches: state => state.meeting.speeches,
-  speechName: state => state.speeches.find(speech => speech.id === state.activeSpeech).name ,
-  speechNeeds: state => state.speeches.find(speech => speech.id === state.activeSpeech).needs,
-  speechRecommendations: state => state.speeches.find(speech => speech.id === state.activeSpeech).recommendations
+  speechName: state => state.meeting.speeches.find(speech => speech.id === state.meeting.activeSpeechInd).name,
+  speechNeeds: state => state.meeting.speeches.find(speech => speech.id === state.meeting.activeSpeechInd).needs,
+  speechRecommendations: state => state.meeting.speeches.find(speech => speech.id === state.meeting.activeSpeechInd).recommendations,
 }
 
 export const mutations = {
@@ -26,11 +26,11 @@ export const mutations = {
     state.meeting.speeches = speeches
   },
   SET_SPEECH_NEEDS(state, needs){
-    var speech = state.meeting.speeches.find(speech => speech.id === state.meeting.activeSpeechInd)
+    const speech = state.meeting.speeches.find(speech => speech.id === state.meeting.activeSpeechInd);
     speech.needs = needs
   },
   SET_SPEECH_RECOMENDATIONS(state, recomm){
-    var speech = state.meeting.speeches.find(speech => speech.id === state.meeting.activeSpeechInd)
+    const speech = state.meeting.speeches.find(speech => speech.id === state.meeting.activeSpeechInd);
     speech.recommendations = recomm
   }
 }
