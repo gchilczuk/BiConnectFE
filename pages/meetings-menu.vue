@@ -57,7 +57,8 @@
         console.log(val)
       },
       addNewMeeting(){
-        this.tableData.push({date: this.meetingDate});
+        this.tableData.push({date: this.meetingDate, members: 0,
+          guests: 0});
       }
     }
   }
