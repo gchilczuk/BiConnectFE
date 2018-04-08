@@ -28,36 +28,26 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex'
+
   export default {
     name: "secretary-main",
     data() {
       return {
-        meetingDate: '08-04-2018',
-        tableData: [{
-          date: '05-04-2018',
-          members: 15,
-          guests: 1
-        }, {
-          date: '29-03-2018',
-          members: 35,
-          guests: 0
-        }, {
-          date: '15-03-2018',
-          members: 25,
-          guests: 2
-        }, {
-          date: '5-03-2018',
-          members: 35,
-          guests: 0
-        }]
+        meetingDate: '08-04-2018'
       }
+    },
+    computed: {
+      ...mapGetters({
+        tableData: 'meetings/meetings'
+      })
     },
     methods: {
       handleCurrentChange(val) {
         this.$router.push("/meeting")
       },
       addNewMeeting(){
-        this.tableData.push({date: this.meetingDate, members: 0, guests: 0});
+        this.$store.dispatch('meetings/addNewMeeting', this.meetingDate)
       }
     }
   }

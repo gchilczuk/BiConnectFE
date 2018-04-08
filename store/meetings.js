@@ -7,12 +7,30 @@ export const state = () => ({
     numberOfGuests: null,
     speeches: [],
     activeSpeechInd: null
-  }
+  },
+  meetings: [{
+    date: '05-04-2018',
+    members: 15,
+    guests: 1
+  }, {
+    date: '29-03-2018',
+    members: 35,
+    guests: 0
+  }, {
+    date: '15-03-2018',
+    members: 25,
+    guests: 2
+  }, {
+    date: '5-03-2018',
+    members: 35,
+    guests: 0
+  }]
 })
 
 export const getters = {
   activeSpeechInd: state => state.meeting.activeSpeechInd,
-  speeches: state => state.meeting.speeches
+  speeches: state => state.meeting.speeches,
+  meetings: state => state.meetings
 }
 
 export const mutations = {
@@ -29,6 +47,9 @@ export const mutations = {
   SET_SPEECH_RECOMENDATIONS(state, recomm){
     const speech = state.meeting.speeches.find(speech => speech.id === state.meeting.activeSpeechInd);
     speech.recommendations = recomm
+  },
+  ADD_NEW_MEETING(state, date){
+    state.meetings.push({date: date, members: 0, guests: 0});
   }
 }
 
@@ -122,5 +143,8 @@ export const actions = {
   },
   setSpeechRecommendations({commit}, name){
     commit('setSpeechRecommendations', name)
+  },
+  addNewMeeting({commit}, date){
+    commit('ADD_NEW_MEETING', date)
   }
 }
