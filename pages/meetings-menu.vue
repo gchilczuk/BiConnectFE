@@ -34,7 +34,7 @@
     name: "secretary-main",
     data() {
       return {
-        meetingDate: '08-04-2018'
+        meetingDate: '09-04-2018'
       }
     },
     computed: {

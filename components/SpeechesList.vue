@@ -1,6 +1,6 @@
 <template>
   <el-row class="m-4">
-    <h5>Spotkanie: 04.05.2018</h5>
+    <h5>Spotkanie: 05.04.2018{{aa}} </h5>
     <el-row>
       <b-row>
         <b-col>
@@ -17,6 +17,7 @@
     </el-row>
     <el-row>
       <el-table
+        ref="singleTable"
         :data="speeches"
         highlight-current-row
         @current-change="handleCurrentChange">
@@ -31,7 +32,7 @@
           property="surname"
           label="Nazwisko">
         </el-table-column>
-        <el-table-column label="Operations" align="right">
+        <el-table-column label="" align="right">
           <template slot-scope="scope">
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)" plain>Usuń</el-button>
           </template>
@@ -43,27 +44,56 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import {mapState} from 'vuex'
 
   export default {
     surname: "SpeechesList",
     data() {
       return {
+
+      }
+    },
+    watch: {
+      a: function (val, oldVal) {
+        console.log(oldVal, '→', val)
+        if (val == null || typeof val === 'undefined')
+          this.setCurrent(null)
       }
     },
     computed: {
       ...mapGetters({
         speeches: 'meetings/speeches'
-      })
+      }),
+      ...mapState({
+        aa: state => state.meetings.meeting.speeches[0].name,
+      }),
+      a: {
+        get() { return this.$store.getters['meetings/activeSpeechInd']}
+      }
+
+
     },
     methods: {
+      setCurrent(row) {
+        console.log('rowek', row)
+        this.$refs.singleTable.setCurrentRow(row);
+      },
       handleCurrentChange(val) {
-        this.$store.dispatch('meetings/setActiveSpeech', val.id)
+
+        if (val != null)
+          this.$store.dispatch('meetings/setActiveSpeech', val.id)
+        else
+          this.$store.dispatch('meetings/setActiveSpeech', null)
+
       },
       addNewSpeech() {
         this.$store.dispatch('meetings/addNewSpeech')
+        this.$store.dispatch('meetings/setActiveSpeech', 4)
+        this.setCurrent(4)
       },
       handleDelete(index, row) {
         this.$store.dispatch('meetings/removeSpeechById', index)
+        this.$store.dispatch('meetings/setActiveSpeech', null)
       }
     },
     mounted() {
