@@ -57,7 +57,7 @@
     },
     methods: {
       handleCurrentChange(val) {
-        // this.$store.dispatch('meetings/setActiveSpeech', val.id)
+        this.$store.dispatch('meetings/setActiveSpeech', val.id)
       },
       addNewSpeech() {
         this.$store.dispatch('meetings/addNewSpeech')
