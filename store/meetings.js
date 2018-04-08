@@ -21,14 +21,6 @@ export const mutations = {
   },
   SET_SPEECHES (state, speeches) {
     state.meeting.speeches = speeches
-  },
-  SET_SPEECH_NEEDS(state, needs){
-    const speech = state.meeting.speeches.find(speech => speech.id === state.meeting.activeSpeechInd);
-    speech.needs = needs
-  },
-  SET_SPEECH_RECOMENDATIONS(state, recomm){
-    const speech = state.meeting.speeches.find(speech => speech.id === state.meeting.activeSpeechInd);
-    speech.recommendations = recomm
   }
 }
 
@@ -114,13 +106,7 @@ export const actions = {
     }]
     commit('SET_SPEECHES', speeches)
   },
-  setSpeechName({commit}, name){
-    commit('setSpeechName', name)
-  },
-  setSpeechNeeds({commit}, name){
-    commit('setSpeechNeeds', name)
-  },
-  setSpeechRecommendations({commit}, name){
-    commit('setSpeechRecommendations', name)
+  setSpeeches({commit}, speeches){
+    commit('SET_SPEECHES', speeches)
   }
 }
