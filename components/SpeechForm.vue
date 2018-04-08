@@ -55,20 +55,17 @@
       return {
         needCounter: 0, //this.$store.getters['meetings/speechNeeds'].length,
         recommendCounter: 0, //this.$store.getters['meetings/speechRecommendations'].length,
-        needs: this.$store.getters['meetings/speechNeeds'].slice(0),
-        recommendations: this.$store.getters['meetings/speechRecommendations'].slice(0)
+        recommendations:[], //this.$store.getters['meetings/speechRecommendations'].slice(0)
+        name: 'nope'
       }
     },
     computed: {
       activeSpeech: {
         get() {
-          console.log('ELOELO', this.$store.getters['meetings/speechName'])
-          return this.$store.getters['meetings/speechName']},
+          return this.$store.getters['meetings/activeSpeechInd'] != null},
       },
-      speechName:{
-        get() {return this.$store.getters['meetings/speechName']},
-        set(value){this.$store.dispatch('meetings/setSpeechName', value)}
-      }
+      speeches: this.$store.getters['meetings/speeches'],
+      // needs: this.speeches
     },
 
     methods: {
