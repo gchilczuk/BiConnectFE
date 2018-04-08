@@ -6,15 +6,15 @@ export const state = () => ({
     numberOfMembers: null,
     numberOfGuests: null,
     speeches: [],
-    activeSpeechInd: null
+    activeSpeechInd: 1
   }
 })
 
 export const getters = {
-  activeSpeech: state => state.activeSpeech,
-  speechName: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).name },
-  // speechNeeds: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).needs },
-  // speechRecommendations: (state) => { return state.speeches.find(speech => speech.id === state.activeSpeech).recommendations }
+  activeSpeechInd: state => state.activeSpeechInd,
+  speechName: state => state.speeches.find(speech => speech.id === state.activeSpeech).name ,
+  speechNeeds: state => state.speeches.find(speech => speech.id === state.activeSpeech).needs,
+  speechRecommendations: state => state.speeches.find(speech => speech.id === state.activeSpeech).recommendations
 }
 
 export const mutations = {

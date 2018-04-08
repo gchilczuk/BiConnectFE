@@ -7,7 +7,6 @@
       <b-col cols="7">
         <speech-form></speech-form>
       </b-col>
-
     </b-row>
 
   </div>
