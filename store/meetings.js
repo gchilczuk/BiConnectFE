@@ -11,11 +11,8 @@ export const state = () => ({
 })
 
 export const getters = {
-  activeSpeechInd: state => state.activeSpeechInd,
-  speechName: state => state.speeches.find(speech => speech.id === state.activeSpeech).name ,
-  speechNeeds: state => state.speeches.find(speech => speech.id === state.activeSpeech).needs,
-  speechRecommendations: state => state.speeches.find(speech => speech.id === state.activeSpeech).recommendations
-}
+  activeSpeechInd: state => state.meeting.activeSpeechInd,
+ }
 
 export const mutations = {
   setActiveSpeech (state, ind) {

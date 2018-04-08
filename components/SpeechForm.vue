@@ -46,6 +46,7 @@
 
 <script>
   import {mapGetters} from 'vuex'
+  import {getters} from "../store";
 
   export default {
     name: "SpeechForm",
@@ -58,7 +59,7 @@
     computed: {
       activeSpeech: {
         get() {
-          console.log('ELOELO', this.$store.getters.activeSpeechInd)
+          console.log('ELOELO', this.$store.getters['meetings/activeSpeechInd'])
           return this.$store.getters.activeSpeechInd || 1},
       },
       speechName:{
