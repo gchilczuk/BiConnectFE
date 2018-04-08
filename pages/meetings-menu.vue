@@ -2,7 +2,7 @@
   <b-container class="mt-4">
     <h1>Spotkania</h1>
     <el-date-picker type="date" v-model="meetingDate" :picker-options="dataPickerRestriction"></el-date-picker>
-    <el-button class="ml-2" type="success" plain>Dodaj spotkanie</el-button>
+    <el-button class="ml-2" @click="addNewMeeting" type="success" plain>Dodaj spotkanie</el-button>
 
     <el-table
       :data="tableData"
@@ -57,6 +57,10 @@
         }
       }
     },
-    methods: {}
+    methods: {
+      handleCurrentChange(val) {
+        console.log(val)
+      }
+    }
   }
 </script>
