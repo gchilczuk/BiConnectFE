@@ -1,7 +1,7 @@
 <template>
   <b-container class="mt-4">
     <h1>Spotkania</h1>
-    <el-date-picker type="date" v-model="meetingDate" :picker-options="dataPickerRestriction"></el-date-picker>
+    <el-date-picker type="date" v-model="meetingDate" value-format="dd-MM-yyyy"></el-date-picker>
     <el-button class="ml-2" @click="addNewMeeting" type="success" plain>Dodaj spotkanie</el-button>
 
     <el-table
@@ -32,7 +32,7 @@
     name: "secretary-main",
     data() {
       return {
-        meetingDate: null,
+        meetingDate: '08-04-2018',
         tableData: [{
           date: '05-04-2018',
           members: 15,
@@ -49,17 +49,15 @@
           date: '5-03-2018',
           members: 35,
           guests: 0
-        }],
-        dataPickerRestriction: {
-          disabledDate(time) {
-            return time.getTime() > Date.now();
-          }
-        }
+        }]
       }
     },
     methods: {
       handleCurrentChange(val) {
         console.log(val)
+      },
+      addNewMeeting(){
+        this.tableData.push({date: this.meetingDate});
       }
     }
   }
