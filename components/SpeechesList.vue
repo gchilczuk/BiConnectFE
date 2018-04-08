@@ -1,6 +1,6 @@
 <template>
   <el-row class="m-4">
-    <h5>Spotkanie: 05.04.2018{{aa}} </h5>
+    <h5>Spotkanie: 05.04.2018</h5>
     <el-row>
       <b-row>
         <b-col>
@@ -64,9 +64,6 @@
       ...mapGetters({
         speeches: 'meetings/speeches'
       }),
-      ...mapState({
-        aa: state => state.meetings.meeting.speeches[0].name,
-      }),
       a: {
         get() { return this.$store.getters['meetings/activeSpeechInd']}
       }
@@ -79,12 +76,8 @@
         this.$refs.singleTable.setCurrentRow(row);
       },
       handleCurrentChange(val) {
-
         if (val != null)
           this.$store.dispatch('meetings/setActiveSpeech', val.id)
-        else
-          this.$store.dispatch('meetings/setActiveSpeech', null)
-
       },
       addNewSpeech() {
         this.$store.dispatch('meetings/addNewSpeech')

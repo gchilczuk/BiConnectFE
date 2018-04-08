@@ -136,8 +136,6 @@
       },
       quickSave() {
         this.$store.dispatch('meetings/setSpeech', Object.assign({}, this.speech))
-        this.$store.dispatch('meetings/addNewSpeech')
-        this.$store.dispatch('meetings/removeSpeechById', 1)
       },
       onSubmit() {
         this.speech.needs = this.speech.needs.slice(0, this.needCounter)
