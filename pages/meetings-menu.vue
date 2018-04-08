@@ -54,11 +54,10 @@
     },
     methods: {
       handleCurrentChange(val) {
-        console.log(val)
+        this.$router.push("/meeting")
       },
       addNewMeeting(){
-        this.tableData.push({date: this.meetingDate, members: 0,
-          guests: 0});
+        this.tableData.push({date: this.meetingDate, members: 0, guests: 0});
       }
     }
   }
