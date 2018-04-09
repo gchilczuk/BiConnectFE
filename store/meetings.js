@@ -12,19 +12,19 @@ export const state = () => ({
   },
   meetings: [{
     date: '05-04-2018',
-    members: 6,
+    members: 4,
     guests: 1
   }, {
     date: '29-03-2018',
-    members: 35,
+    members: 0,
     guests: 0
   }, {
     date: '15-03-2018',
-    members: 25,
-    guests: 2
+    members: 0,
+    guests: 0
   }, {
     date: '5-03-2018',
-    members: 35,
+    members: 0,
     guests: 0
   }]
 })
@@ -74,25 +74,30 @@ export const actions = {
       name: 'Jan',
       surname: 'Kowalski',
       needs: ['Jan Kowalski potrzeba 1', 'Jego druga potrzeba'],
-      recommendations: ['Kowalski, rekomendacja']
+      recommendations: ['Kowalski, rekomendacja'],
+      guest: false
+
     }, {
       id: 2,
       name: 'Paweł',
       surname: 'Nowak',
       needs: ['Mało towaru mi się sprzedaje, potrzebuję reklamy', 'Chcę obniżyć koszty dostawy'],
-      recommendations: ['Polecam moją księgarnię internetową!']
+      recommendations: ['Polecam moją księgarnię internetową!'],
+      guest: true
     }, {
       id: 3,
       name: 'Anna',
       surname: 'Nowak',
       needs: ['Alfa potrzeba'],
-      recommendations: []
+      recommendations: [],
+      guest: false
     }, {
       id: 4,
       name: 'Kazimierz',
       surname: 'Prawdziwy',
       needs: ['Chcę tańszej mąki!'],
-      recommendations: ['Polecam wszystkim moje wypieki!']
+      recommendations: ['Polecam wszystkim moje wypieki!'],
+      guest: false
     }]
     commit('SET_SPEECHES', speeches)
   },

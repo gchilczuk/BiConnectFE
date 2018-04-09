@@ -22,12 +22,22 @@
                         @blur="quickSave"/>
             </b-col>
           </b-row>
+          <el-checkbox v-model="speech.guest" size="medium" border>Gość</el-checkbox>
         </el-form-item>
 
         <el-form-item>
           <h5>Potrzeby</h5>
-          <el-button type="primary" @click="addNeed" size="small" plain>Nowa potrzeba</el-button>
-          <el-button type="primary" @click="decreaseNeed" size="small" plain>Usuń</el-button>
+          <b-row>
+            <span class="ml-3">
+              <el-button type="primary" @click="addNeed" size="small" plain>Nowa potrzeba</el-button>
+              <el-button type="primary" @click="decreaseNeed" size="small" plain>Usuń</el-button>
+            </span>
+            <b-col>
+              <el-upload action="#">
+                <el-button size="small" type="success" circle><i class="el-icon-upload el-icon-right"></i></el-button>
+              </el-upload>
+            </b-col>
+          </b-row>
         </el-form-item>
         <el-form-item v-for="nr in needCounter" v-bind:key="'needItem'+nr" v-bind:label="'Potrzeba '+nr">
           <el-input v-bind:key="'needInput'+nr" name="needTextInput"
@@ -40,8 +50,18 @@
 
         <el-form-item>
           <h5>Rekomendacje</h5>
-          <el-button type="primary" @click="addRecommendation" size="small" plain>Nowa rekomendacja</el-button>
-          <el-button type="primary" @click="decreaseRecommendation" size="small" plain>Usuń</el-button>
+
+          <b-row>
+            <span class="ml-3">
+              <el-button type="primary" @click="addRecommendation" size="small" plain>Nowa rekomendacja</el-button>
+              <el-button type="primary" @click="decreaseRecommendation" size="small" plain>Usuń</el-button>
+            </span>
+            <b-col>
+              <el-upload action="#" >
+                <el-button size="small" type="success"  circle><i class="el-icon-upload el-icon-right"></i></el-button>
+              </el-upload>
+            </b-col>
+          </b-row>
         </el-form-item>
         <el-form-item v-for="nr in recommendCounter" v-bind:key="'recommendItem'+nr" v-bind:label="'Rekomendacja '+nr">
           <el-input v-bind:key="'recommendInput'+nr" name="needTextInput"
@@ -51,7 +71,6 @@
                     placeholder="Rekomendacja osoby prezentującej"
                     @blur="quickSave"/>
         </el-form-item>
-
         <el-form-item>
           <el-button type="primary" @click="onSubmit">Zapisz</el-button>
         </el-form-item>
@@ -77,6 +96,7 @@
           surname: '',
           needs: [],
           recommendations: [],
+          guest: false
         },
         needCounter: 0,
         recommendCounter: 0,
@@ -114,6 +134,7 @@
             this.recommendCounter = sp.recommendations.length
             this.speech.name = sp.name
             this.speech.surname = sp.surname
+            this.speech.guest = sp.guest
           }
         }
       },

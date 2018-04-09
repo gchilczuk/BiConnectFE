@@ -72,17 +72,17 @@
     },
     methods: {
       setCurrent(row) {
-        console.log('rowek', row)
         this.$refs.singleTable.setCurrentRow(row);
       },
       handleCurrentChange(val) {
         if (val != null)
           this.$store.dispatch('meetings/setActiveSpeech', val.id)
+        else
+          console.log("mamy nula")
       },
       addNewSpeech() {
         this.$store.dispatch('meetings/addNewSpeech')
         this.$store.dispatch('meetings/setActiveSpeech', 4)
-        this.setCurrent(4)
       },
       handleDelete(index, row) {
         this.$store.dispatch('meetings/removeSpeechById', index)
