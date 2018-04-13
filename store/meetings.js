@@ -9,18 +9,22 @@ export const state = () => ({
     activeSpeechInd: null
   },
   meetings: [{
+    id: 1,
     date: '05-04-2018',
     members: 15,
     guests: 1
   }, {
+    id: 2,
     date: '29-03-2018',
     members: 35,
     guests: 0
   }, {
+    id: 3,
     date: '15-03-2018',
     members: 25,
     guests: 2
   }, {
+    id: 4,
     date: '5-03-2018',
     members: 35,
     guests: 0
@@ -40,8 +44,10 @@ export const mutations = {
   SET_SPEECHES(state, speeches) {
     state.meeting.speeches = speeches
   },
+
+  //TODO sensowne wstawianie
   ADD_NEW_MEETING(state, date) {
-    state.meetings.push({date: date, members: 0, guests: 0});
+    state.meetings.push({id: 100, date: date, members: 0, guests: 0});
   }
 }
 
