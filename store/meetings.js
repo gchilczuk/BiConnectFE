@@ -59,7 +59,7 @@ export const mutations = {
   ADD_NEW_MEETING(state, date) {
     state.meetings.push({id: 100, date: date, members: 0, guests: 0})
   },
-  SET_CURR_MEETING(state, ind) {
+  SET_CURR_MEETING_IND(state, ind) {
     state.currMeetingInd = ind
   },
   ADD_NEW_SPEECH(state) {
@@ -124,5 +124,8 @@ export const actions = {
   },
   addNewMeeting({commit}, date) {
     commit('ADD_NEW_MEETING', date)
+  },
+  setCurrMeetingInd({commit}, ind) {
+    commit('SET_CURR_MEETING_IND', ind)
   }
 }

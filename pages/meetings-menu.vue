@@ -59,6 +59,7 @@
         return today
       },
       handleCurrentChange(val) {
+        this.$store.dispatch('meetings/setCurrMeetingInd', val.id)
         this.$router.push("/meeting")
       },
       addNewMeeting(){
