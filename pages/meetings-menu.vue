@@ -31,7 +31,7 @@
   import {mapGetters} from 'vuex'
 
   export default {
-    name: "secretary-main",
+    name: "meetings-menu",
     data() {
       return {
           meetingDate: this.getToday()
