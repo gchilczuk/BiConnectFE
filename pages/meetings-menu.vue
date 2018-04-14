@@ -65,6 +65,9 @@
       addNewMeeting(){
         this.$store.dispatch('meetings/addNewMeeting', this.meetingDate)
       }
+    },
+    mounted() {
+      this.$store.dispatch('meetings/fetchMeetings')
     }
   }
 </script>
