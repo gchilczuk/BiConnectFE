@@ -48,8 +48,12 @@ export const mutations = {
   },
   SET_SPEECH(state, speech) {
     let spe = state.meeting.speeches.find(sp => sp.id === speech.id)
-    let index = state.meeting.speeches.indexOf(spe)
-    Vue.set(state.meeting.speeches, index, speech)
+    spe.name = speech.name
+    spe.surname = speech.surname
+    spe.guest = speech.guest
+    spe.needs = speech.needs.slice()
+    spe.recommendations = speech.recommendations.slice()
+
   },
   REMOVE_SPEECH(state, ind) {
     state.meeting.speeches.pop()
