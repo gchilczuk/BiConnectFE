@@ -3,7 +3,7 @@ import Vue from 'vue'
 export const state = () => ({
   meeting: {
     id: null,
-    date: null,
+    date: "21.21.2021",
     group: null,
     numberOfMembers: null,
     numberOfGuests: null,
@@ -36,7 +36,8 @@ export const state = () => ({
 export const getters = {
   activeSpeechInd: state => state.meeting.activeSpeechInd,
   speeches: state => state.meeting.speeches,
-  meetings: state => state.meetings
+  meetings: state => state.meetings,
+  meeting: state => state.meeting
 }
 
 export const mutations = {
@@ -119,5 +120,8 @@ export const actions = {
   },
   addNewMeeting({commit}, date) {
     commit('ADD_NEW_MEETING', date)
+  },
+  updateMeetingDate({commit}, date) {
+    console.log('tutaj będzie request czy cokolwiek..', date)
   }
 }
