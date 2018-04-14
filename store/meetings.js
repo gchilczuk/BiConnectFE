@@ -45,11 +45,13 @@ export const mutations = {
       date: date,
       members: 0,
       guests: 0,
-      speeches: []
+      speeches: [],
+      activeSpeechInd: null
     })
   },
   SET_CURR_MEETING_IND(state, ind) {
     state.currMeetingInd = ind
+    state.meeting = state.meetings.find(me => me.id === state.currMeetingInd)
   },
   ADD_NEW_SPEECH(state) {
     state.meeting.speeches.push({
@@ -72,7 +74,8 @@ export const actions = {
       date: '05-04-2018',
       members: 4,
       guests: 1,
-      speeches: []
+      speeches: [],
+      activeSpeechInd: null
     }, {
       id: 1,
       date: '29-03-2018',
@@ -84,7 +87,8 @@ export const actions = {
         surname: 'Kowalski',
         needs: ['Jan Kowalski potrzeba 1', 'Jego druga potrzeba'],
         recommendations: ['Kowalski, rekomendacja'],
-        guest: false}]
+        guest: false}],
+      activeSpeechInd: null
     }, {
       id: 2,
       date: '15-03-2018',
@@ -97,7 +101,8 @@ export const actions = {
         needs: ['Mało towaru mi się sprzedaje, potrzebuję reklamy', 'Chcę obniżyć koszty dostawy'],
         recommendations: ['Polecam moją księgarnię internetową!'],
         guest: true
-      }]
+      }],
+      activeSpeechInd: null
     }, {
       id: 3,
       date: '5-03-2018',
@@ -118,7 +123,8 @@ export const actions = {
         needs: ['Mało towaru mi się sprzedaje, potrzebuję reklamy', 'Chcę obniżyć koszty dostawy'],
         recommendations: ['Polecam moją księgarnię internetową!'],
         guest: true
-      }]
+      }],
+      activeSpeechInd: null
     }]
     commit('SET_MEETINGS', meetings)
   },
