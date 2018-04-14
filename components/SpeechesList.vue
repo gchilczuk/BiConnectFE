@@ -1,10 +1,21 @@
 <template>
   <el-row class="m-4">
-    <h5>Spotkanie: 05.04.2018</h5>
+    <div class="mb-4">
+      <span class="meeting-header">Spotkanie: </span>
+      <input id="meeting-date-input" title="meeting-date"
+             v-model="meetingDate" :disabled="isMeetingDateDisabled" :class="{'input-editable': !isMeetingDateDisabled}" type="text" size="8"/>
+      <span class="pl-2">
+        <i v-if="isMeetingDateDisabled" @click="changeMeetingDate" class="el-icon-edit meeting-header-icon"></i>
+        <span v-else>
+          <i class="el-icon-close meeting-header-icon" @click="abortChangeMeetingDate"></i>
+          <i class="el-icon-check meeting-header-icon" @click="applyChangeMeetingDate"></i>
+        </span>
+        </span>
+    </div>
     <el-row>
       <b-row>
         <b-col>
-          <el-button @click="addNewSpeech" type="success" plain>
+          <el-button @click="addSpeech" type="success" plain>
             <i class="el-icon-plus"></i> Dodaj nowe wystąpienie
           </el-button>
         </b-col>
@@ -17,8 +28,8 @@
     </el-row>
     <el-row>
       <el-table
-        ref="singleTable"
-        :data="speeches"
+        ref="speechTable"
+        :data="activeMeeting.speeches"
         highlight-current-row
         @current-change="handleCurrentChange">
         <el-table-column
@@ -44,53 +55,71 @@
 
 <script>
   import {mapGetters} from 'vuex'
-  import {mapState} from 'vuex'
 
   export default {
-    surname: "SpeechesList",
+    name: "SpeechesList",
     data() {
       return {
-
-      }
-    },
-    watch: {
-      a: function (val, oldVal) {
-        console.log(oldVal, '→', val)
-        if (val == null || typeof val === 'undefined')
-          this.setCurrent(null)
+        isMeetingDateDisabled: true,
+        meetingDate: null
       }
     },
     computed: {
       ...mapGetters({
-        speeches: 'meetings/speeches'
-      }),
-      a: {
-        get() { return this.$store.getters['meetings/activeSpeechInd']}
-      }
-
-
+        activeMeeting: 'meetings/meeting',
+        activeSpeechIndex: 'meetings/activeSpeechInd'
+      })
     },
     methods: {
-      setCurrent(row) {
-        this.$refs.singleTable.setCurrentRow(row);
+      clearTableSelection() {
+        this.$refs.speechTable.setCurrentRow(null);
       },
       handleCurrentChange(val) {
-        if (val != null)
-          this.$store.dispatch('meetings/setActiveSpeech', val.id)
-        else
-          console.log("mamy nula")
+        let currentRow = val == null ? null : val.id
+        this.$store.dispatch('meetings/setActiveSpeech', currentRow)
       },
-      addNewSpeech() {
+      addSpeech() {
         this.$store.dispatch('meetings/addNewSpeech')
-        this.$store.dispatch('meetings/setActiveSpeech', 4)
       },
       handleDelete(index, row) {
         this.$store.dispatch('meetings/removeSpeechById', index)
-        this.$store.dispatch('meetings/setActiveSpeech', null)
+      },
+      changeMeetingDate() {
+        this.isMeetingDateDisabled = false
+      },
+      abortChangeMeetingDate() {
+        this.isMeetingDateDisabled = true
+        this.meetingDate = this.activeMeeting.date
+      },
+      applyChangeMeetingDate() {
+        this.$store.dispatch('meetings/updateMeetingDate', this.meetingDate)
+        this.isMeetingDateDisabled = true
       }
     },
     mounted() {
       this.$store.dispatch('meetings/fetchData')
+      this.meetingDate = this.activeMeeting.date
     }
   }
 </script>
+
+<style scoped>
+  #meeting-date-input {
+    background-color: transparent;
+    border: none;
+    color: black;
+    font-size: 22px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .input-editable {
+    border-color: #12b31c;
+    box-shadow: 0 0 3px #129f1c;
+  }
+  .meeting-header {
+    font-size: 22px;
+  }
+  .meeting-header-icon {
+    font-size: 24px;
+  }
+</style>
