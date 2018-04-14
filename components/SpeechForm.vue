@@ -57,8 +57,8 @@
               <el-button type="primary" @click="decreaseRecommendation" size="small" plain>Usuń</el-button>
             </span>
             <b-col>
-              <el-upload action="#" >
-                <el-button size="small" type="success"  circle><i class="el-icon-upload el-icon-right"></i></el-button>
+              <el-upload action="#">
+                <el-button size="small" type="success" circle><i class="el-icon-upload el-icon-right"></i></el-button>
               </el-upload>
             </b-col>
           </b-row>
