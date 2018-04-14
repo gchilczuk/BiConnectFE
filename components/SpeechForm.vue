@@ -2,9 +2,21 @@
   <div>
     <b-container class="mt-4">
       <el-form label-width="120px" v-if="activeSpeech">
-        <el-form-item>
-          <el-button type="primary" @click="close">Zamknij</el-button>
-        </el-form-item>
+        <b-row>
+          <b-col>
+            <el-form-item>
+              <el-button type="primary" @click="close">Zamknij</el-button>
+            </el-form-item>
+          </b-col>
+          <b-col  class="text-right">
+            <el-form-item >
+              <el-upload action="#">
+                <span class="mr-1">Użyj nagrania </span>
+                <el-button size="small" type="success" circle><i class="el-icon-upload el-icon-right"></i></el-button>
+              </el-upload>
+            </el-form-item>
+          </b-col>
+        </b-row>
         <el-form-item label="Osoba">
           <b-row>
             <b-col>
@@ -32,11 +44,6 @@
               <el-button type="primary" @click="addNeed" size="small" plain>Nowa potrzeba</el-button>
               <el-button type="primary" @click="decreaseNeed" size="small" plain>Usuń</el-button>
             </span>
-            <b-col>
-              <el-upload action="#">
-                <el-button size="small" type="success" circle><i class="el-icon-upload el-icon-right"></i></el-button>
-              </el-upload>
-            </b-col>
           </b-row>
         </el-form-item>
         <el-form-item v-for="nr in needCounter" v-bind:key="'needItem'+nr" v-bind:label="'Potrzeba '+nr">
@@ -56,11 +63,6 @@
               <el-button type="primary" @click="addRecommendation" size="small" plain>Nowa rekomendacja</el-button>
               <el-button type="primary" @click="decreaseRecommendation" size="small" plain>Usuń</el-button>
             </span>
-            <b-col>
-              <el-upload action="#">
-                <el-button size="small" type="success" circle><i class="el-icon-upload el-icon-right"></i></el-button>
-              </el-upload>
-            </b-col>
           </b-row>
         </el-form-item>
         <el-form-item v-for="nr in recommendCounter" v-bind:key="'recommendItem'+nr" v-bind:label="'Rekomendacja '+nr">
