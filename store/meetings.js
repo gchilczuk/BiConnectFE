@@ -40,7 +40,7 @@ export const mutations = {
     state.meetings = meetings
   },
   ADD_NEW_MEETING(state, date) {
-    state.meetings.push({id: 100, date: date, members: 0, guests: 0})
+    state.meetings.push({id: 100, date: date, members: 0, guests: 0, speeches: []})
   },
   SET_CURR_MEETING_IND(state, ind) {
     state.currMeetingInd = ind
