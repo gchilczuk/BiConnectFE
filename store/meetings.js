@@ -3,7 +3,7 @@ import Vue from 'vue'
 export const state = () => ({
   meeting: {
     id: null,
-    date: "21.21.2021",
+    date: "2021-12-21",
     group: null,
     numberOfMembers: null,
     numberOfGuests: null,
