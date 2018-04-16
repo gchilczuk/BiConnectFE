@@ -88,6 +88,9 @@
         this.$store.dispatch('meetings/removeSpeechById', index)
         this.$store.dispatch('meetings/setActiveSpeech', null)
       }
+    },
+    mounted() {
+      this.$store.dispatch('meetings/fetchData')
     }
   }
 </script>

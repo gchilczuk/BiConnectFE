@@ -4,26 +4,24 @@ export const state = () => ({
   meeting: {
     id: null,
     date: null,
+    count_members: null,
+    count_guests: null,
     group: null,
-    numberOfMembers: null,
-    numberOfGuests: null,
-    speeches: [],
-    activeSpeechInd: null
+    speeches: []
   },
   meetings: [],
-  currMeetingInd: null
+  activeSpeechInd: null
 })
 
 export const getters = {
-  activeSpeechInd: state => state.meeting.activeSpeechInd,
-  currMeetingInd: state => state.currMeetingInd,
-  speeches: state => state.meetings.find(me => me.id === state.currMeetingInd).speeches,
+  activeSpeechInd: state => state.activeSpeechInd,
+  speeches: state => state.meeting.speeches,
   meetings: state => state.meetings
 }
 
 export const mutations = {
   SET_ACTIVE_SPEECH(state, ind) {
-    state.meeting.activeSpeechInd = ind
+    state.activeSpeechInd = ind
   },
   SET_SPEECHES(state, speeches) {
     state.meetings.find(me => me.id === state.currMeetingInd).speeches = speeches
@@ -43,15 +41,15 @@ export const mutations = {
     state.meetings.push({
       id: state.meetings.length,
       date: date,
-      members: 0,
-      guests: 0,
-      speeches: [],
-      activeSpeechInd: null
+      count_members: 0,
+      count_guests: 0,
+      group: null,
+      speeches: []
     })
   },
-  SET_CURR_MEETING_IND(state, ind) {
-    state.currMeetingInd = ind
-    state.meeting = state.meetings.find(me => me.id === state.currMeetingInd)
+  SET_CURR_MEETING(state, ind) {
+    state.meeting = state.meetings.find(me => me.id === ind)
+    state.activeSpeechInd = null
   },
   ADD_NEW_SPEECH(state) {
     state.meeting.speeches.push({
@@ -72,28 +70,29 @@ export const actions = {
     const meetings = [{
       id: 0,
       date: '05-04-2018',
-      members: 4,
-      guests: 1,
-      speeches: [],
-      activeSpeechInd: null
+      count_members: 4,
+      count_guests: 1,
+      group: null,
+      speeches: []
     }, {
       id: 1,
       date: '29-03-2018',
-      members: 0,
-      guests: 0,
+      count_members: 0,
+      count_guests: 0,
+      group: null,
       speeches:[{
         id: 1,
         name: 'Jan',
         surname: 'Kowalski',
         needs: ['Jan Kowalski potrzeba 1', 'Jego druga potrzeba'],
         recommendations: ['Kowalski, rekomendacja'],
-        guest: false}],
-      activeSpeechInd: null
+        guest: false}]
     }, {
       id: 2,
       date: '15-03-2018',
-      members: 0,
-      guests: 0,
+      count_members: 0,
+      count_guests: 0,
+      group: null,
       speeches: [{
         id: 2,
         name: 'Paweł',
@@ -101,13 +100,13 @@ export const actions = {
         needs: ['Mało towaru mi się sprzedaje, potrzebuję reklamy', 'Chcę obniżyć koszty dostawy'],
         recommendations: ['Polecam moją księgarnię internetową!'],
         guest: true
-      }],
-      activeSpeechInd: null
+      }]
     }, {
       id: 3,
       date: '5-03-2018',
-      members: 0,
-      guests: 0,
+      count_members: 0,
+      count_guests: 0,
+      group: null,
       speeches:[{
         id: 1,
         name: 'Jan',
@@ -123,8 +122,7 @@ export const actions = {
         needs: ['Mało towaru mi się sprzedaje, potrzebuję reklamy', 'Chcę obniżyć koszty dostawy'],
         recommendations: ['Polecam moją księgarnię internetową!'],
         guest: true
-      }],
-      activeSpeechInd: null
+      }]
     }]
     commit('SET_MEETINGS', meetings)
   },
@@ -146,7 +144,7 @@ export const actions = {
   addNewMeeting({commit}, date) {
     commit('ADD_NEW_MEETING', date)
   },
-  setCurrMeetingInd({commit}, ind) {
-    commit('SET_CURR_MEETING_IND', ind)
+  setCurrMeeting({commit}, ind) {
+    commit('SET_CURR_MEETING', ind)
   }
 }

@@ -16,11 +16,11 @@
         label="Data">
       </el-table-column>
       <el-table-column
-        property="members"
+        property="count_members"
         label="Liczba członków">
       </el-table-column>
       <el-table-column
-        property="guests"
+        property="count_guests"
         label="Liczba gości">
       </el-table-column>
     </el-table>
@@ -58,8 +58,8 @@
         console.log("set cd" + today)
         return today
       },
-      handleCurrentChange(val) {
-        this.$store.dispatch('meetings/setCurrMeetingInd', val.id)
+      handleCurrentChange(meeting) {
+        this.$store.dispatch('meetings/setCurrMeeting', meeting.id)
         this.$router.push("/meeting")
       },
       addNewMeeting(){
