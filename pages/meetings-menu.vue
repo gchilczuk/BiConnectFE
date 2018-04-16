@@ -16,11 +16,11 @@
         label="Data">
       </el-table-column>
       <el-table-column
-        property="members"
+        property="count_members"
         label="Liczba członków">
       </el-table-column>
       <el-table-column
-        property="guests"
+        property="count_guests"
         label="Liczba gości">
       </el-table-column>
     </el-table>
@@ -31,7 +31,7 @@
   import {mapGetters} from 'vuex'
 
   export default {
-    name: "secretary-main",
+    name: "meetings-menu",
     data() {
       return {
           meetingDate: this.getToday()
@@ -58,12 +58,16 @@
         console.log("set cd" + today)
         return today
       },
-      handleCurrentChange(val) {
+      handleCurrentChange(meeting) {
+        this.$store.dispatch('meetings/setCurrMeeting', meeting.id)
         this.$router.push("/meeting")
       },
       addNewMeeting(){
         this.$store.dispatch('meetings/addNewMeeting', this.meetingDate)
       }
+    },
+    mounted() {
+      this.$store.dispatch('meetings/fetchMeetings')
     }
   }
 </script>
