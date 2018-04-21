@@ -41,11 +41,11 @@
           type="index">
         </el-table-column>
         <el-table-column
-          property="name"
+          property="person.first_name"
           label="Imię">
         </el-table-column>
         <el-table-column
-          property="surname"
+          property="person.last_name"
           label="Nazwisko">
         </el-table-column>
         <el-table-column label="" align="right">
