@@ -9,7 +9,7 @@
       highlight-current-row
       @current-change="handleCurrentChange">
       <el-table-column
-        property="id"
+        property="index"
         type="index">
       </el-table-column>
       <el-table-column
@@ -39,7 +39,7 @@
       }
     },
     mounted() {
-      this.$store.dispatch('meetings/fetchMeetings', this.meetingDate)
+      this.$store.dispatch('meetings/fetchMeetings')
     },
     computed: {
       ...mapGetters({
