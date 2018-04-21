@@ -105,13 +105,12 @@ export const actions = {
   async addMeeting({dispatch, commit}, date) {
     const meeting = await this.$axios.post('http://biconnect.herokuapp.com/groups/1/meetings', {
       date: date
-    }).data
-    commit('ADD_MEETING', meeting)
+    })
+    commit('ADD_MEETING', meeting.data)
   },
   async fetchMeetings({commit}) {
-    const meetings = await this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings').data
-    // -> coś nie tak z tym bo tu powinny być dane z backednu, a to wyżej chyba wykonuje się później console.log(meetings)
-    // commit('SET_MEETINGS', meetings)
+    const meetings = await this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings')
+    commit('SET_MEETINGS', meetings.data)
   },
   updateMeetingDate({commit}, date) {
     console.log('tutaj będzie request czy cokolwiek..', date)
