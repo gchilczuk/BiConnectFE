@@ -23,6 +23,11 @@
         property="count_guests"
         label="Liczba gości">
       </el-table-column>
+      <el-table-column label="" align="right">
+        <template slot-scope="scope">
+          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)" plain>Usuń</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </b-container>
 </template>
@@ -63,6 +68,9 @@
       },
       handleCurrentChange(val) {
         this.$router.push("/meeting")
+      },
+      handleDelete(index, row) {
+        this.$store.dispatch('meetings/removeMeeting', index)
       },
       addNewMeeting(){
         this.$store.dispatch('meetings/addMeeting', this.meetingDate)

@@ -112,6 +112,10 @@ export const actions = {
     const meetings = await this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings')
     commit('SET_MEETINGS', meetings.data)
   },
+  async removeMeeting({dispatch, commit}, index) {
+    await this.$axios.delete(`http://biconnect.herokuapp.com/groups/1/meetings/${index}`)
+    dispatch('fetchMeetings')
+  },
   updateMeetingDate({commit}, date) {
     console.log('tutaj będzie request czy cokolwiek..', date)
   }
