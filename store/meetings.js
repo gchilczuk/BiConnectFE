@@ -102,6 +102,9 @@ export const actions = {
     commit('SET_CURR_MEETING', ind)
     return Promise.resolve()
   },
+  setCurrMeeting({commit}, ind) {
+    commit('SET_CURR_MEETING', ind)
+  },
   updateMeetingDate({commit}, date) {
     console.log('tutaj będzie request czy cokolwiek..', date)
   }
