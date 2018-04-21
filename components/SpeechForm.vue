@@ -1,5 +1,9 @@
 <template>
   <div>
+
+
+
+
     <b-container class="mt-4">
       <el-form label-width="120px" v-if="activeSpeech">
         <b-row>
@@ -17,25 +21,46 @@
             </el-form-item>
           </b-col>
         </b-row>
-        <el-form-item label="Osoba">
-          <b-row>
-            <b-col>
-              <el-input id="personNameInput" name="personNamesInput"
-                        type="text"
-                        v-model="speech.name"
-                        placeholder="Imię"
-                        @blur="quickSave"/>
-            </b-col>
-            <b-col>
-              <el-input id="personSurnameInput" name="personNamesInput"
-                        type="text"
-                        v-model="speech.surname"
-                        placeholder="Nazwisko"
-                        @blur="quickSave"/>
-            </b-col>
-          </b-row>
-          <el-checkbox v-model="speech.guest" size="medium" border>Gość</el-checkbox>
+          <!--<el-select slot="prepend" placeholder="Select">-->
+            <!--&lt;!&ndash;<el-option v-for="ludz in this.ludzie" :label="ludz.imie" :value="ludz.id" :key="ludz.id"></el-option>&ndash;&gt;-->
+            <!--<el-option label="ludz.imie" value="1"></el-option>-->
+            <!--<el-option label="Restaurant" value="1"></el-option>-->
+            <!--<el-option label="Order No." value="2"></el-option>-->
+            <!--<el-option label="Tel" value="3"></el-option>-->
+          <!--</el-select>-->
+        <el-form-item>
+
+          <el-select v-model="select" slot="prepend" placeholder="Select">
+            <el-option label="Restaurant" value="1"></el-option>
+            <el-option label="Order No." value="2"></el-option>
+            <el-option label="Tel" value="3"></el-option>
+          </el-select>
         </el-form-item>
+
+        <el-form-item label="Activity zone">
+          <el-select v-model="select" placeholder="please select your zone">
+            <el-option label="Zone one" value="shanghai"></el-option>
+            <el-option label="Zone two" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <!--<b-row>-->
+            <!--<b-col>-->
+              <!--<el-input id="personNameInput" name="personNamesInput"-->
+                        <!--type="text"-->
+                        <!--v-model="speech.name"-->
+                        <!--placeholder="Imię"-->
+                        <!--@blur="quickSave"/>-->
+            <!--</b-col>-->
+            <!--<b-col>-->
+              <!--<el-input id="personSurnameInput" name="personNamesInput"-->
+                        <!--type="text"-->
+                        <!--v-model="speech.surname"-->
+                        <!--placeholder="Nazwisko"-->
+                        <!--@blur="quickSave"/>-->
+            <!--</b-col>-->
+          <!--</b-row>-->
+          <!--<el-checkbox v-model="speech.guest" size="medium" border>Gość</el-checkbox>-->
 
         <el-form-item>
           <h5>Potrzeby</h5>
@@ -50,7 +75,7 @@
           <el-input v-bind:key="'needInput'+nr" name="needTextInput"
                     :autosize="{ minRows: 4}"
                     type="textarea"
-                    v-model="speech.needs[nr-1]"
+                    v-model="speech.requirements[nr-1]"
                     placeholder="Potrzeba zgłoszona przez osobę prezentującą"
                     @blur="quickSave"/>
         </el-form-item>
@@ -94,14 +119,19 @@
 
         speech: {
           id: null,
-          name: '',
-          surname: '',
-          needs: [],
+          person: {
+            first_name:'',
+            last_name: '',
+            username:''
+          },
+          requirements: [],
           recommendations: [],
           guest: false
         },
+        select: '',
         needCounter: 0,
         recommendCounter: 0,
+        ludzie: [{imie:'a',nazwisko:'aa',id:5}]
       }
     },
     watch: {
@@ -130,13 +160,12 @@
           this.speech.id = this.$store.getters['meetings/activeSpeechInd']
           let sp = this.speeches.find(speech => speech.id === this.speech.id)
           if (sp != null) {
-            this.speech.needs = sp.needs.slice(0)
-            this.speech.recommendations = sp.recommendations.slice(0)
-            this.needCounter = sp.needs.length
+            // this.speech.requirements = sp.requirements.slice(0)
+            // this.speech.recommendations = sp.recommendations.slice(0)
+            this.needCounter = sp.requirements.length
             this.recommendCounter = sp.recommendations.length
-            this.speech.name = sp.name
-            this.speech.surname = sp.surname
-            this.speech.guest = sp.guest
+            this.speech.person.first_name = sp.person.first_name,
+            this.speech.person.last_name = sp.person.last_name
           }
         }
       },
@@ -161,8 +190,8 @@
         this.$store.dispatch('meetings/setSpeech', Object.assign({}, this.speech))
       },
       onSubmit() {
-        this.speech.needs = this.speech.needs.slice(0, this.needCounter)
-        this.speech.recommendations = this.speech.recommendations.slice(0, this.recommendCounter)
+        // this.speech.requirements = this.speech.requirements.slice(0, this.needCounter)
+        // this.speech.recommendations = this.speech.recommendations.slice(0, this.recommendCounter)
         this.quickSave()
         this.$notify({
           title: 'Zapisano wystąpienie',

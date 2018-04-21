@@ -9,7 +9,8 @@ export const state = () => ({
     speeches: []
   },
   meetings: [],
-  activeSpeechInd: null
+  activeSpeechInd: null,
+  people: []
 })
 
 export const getters = {
@@ -17,7 +18,8 @@ export const getters = {
   activeSpeechInd: state => state.activeSpeechInd,
   speeches: state => state.meeting.speeches,
   meetings: state => state.meetings,
-  meeting: state => state.meeting
+  meeting: state => state.meeting,
+  people: state => state.people,
 }
 
 export const mutations = {
@@ -44,6 +46,9 @@ export const mutations = {
   },
   SET_MEETINGS(state, meetings) {
     state.meetings = meetings
+  },
+  SET_PEOPLE(state, people) {
+    state.people= people
   },
   SET_MEETING(state, meeting) {
     state.meeting = meeting
@@ -88,6 +93,10 @@ export const actions = {
   async fetchMeetings({commit}) {
     const meetings = await this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings')
     commit('SET_MEETINGS', meetings.data)
+  },
+  async fetchPeople({commit}) {
+    const people = await this.$axios.get('http://biconnect.herokuapp.com/people')
+    commit('SET_PEOPLE', people.data)
   },
   async removeMeeting({dispatch, commit}, index) {
     await this.$axios.delete(`http://biconnect.herokuapp.com/groups/1/meetings/${index}`)
