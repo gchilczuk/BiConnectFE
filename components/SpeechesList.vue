@@ -102,7 +102,6 @@
       }
     },
     mounted() {
-      this.$store.dispatch('meetings/fetchData')
       this.meetingDate = this.activeMeeting.date
     }
   }

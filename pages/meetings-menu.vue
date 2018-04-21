@@ -36,7 +36,7 @@
   import {mapGetters} from 'vuex'
 
   export default {
-    name: "secretary-main",
+    name: "meetings-menu",
     data() {
       return {
           meetingDate: this.getToday()
@@ -66,7 +66,9 @@
         console.log("set cd" + today)
         return today
       },
-      handleCurrentChange(val) {
+      async handleCurrentChange(meeting) {
+        await this.$store.dispatch('meetings/setCurrMeeting', meeting.id)
+        await this.$store.dispatch('meetings/fetchMeeting', meeting.id)
         this.$router.push("/meeting")
       },
       handleDelete(index, row) {
@@ -75,6 +77,9 @@
       addNewMeeting(){
         this.$store.dispatch('meetings/addMeeting', this.meetingDate)
       }
+    },
+    mounted() {
+      this.$store.dispatch('meetings/fetchMeetings')
     }
   }
 </script>
