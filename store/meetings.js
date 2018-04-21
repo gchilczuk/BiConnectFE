@@ -10,27 +10,8 @@ export const state = () => ({
     speeches: [],
     activeSpeechInd: null
   },
-  meetings: [{
-    id: 1,
-    date: '05-04-2018',
-    members: 4,
-    guests: 1
-  }, {
-    id: 2,
-    date: '29-03-2018',
-    members: 0,
-    guests: 0
-  }, {
-    id: 3,
-    date: '15-03-2018',
-    members: 0,
-    guests: 0
-  }, {
-    id: 4,
-    date: '5-03-2018',
-    members: 0,
-    guests: 0
-  }]
+  meetings: [],
+  lol: '123'
 })
 
 export const getters = {
@@ -55,8 +36,11 @@ export const mutations = {
   REMOVE_SPEECH(state, ind) {
     state.meeting.speeches.pop()
   },
-  ADD_NEW_MEETING(state, date) {
-    state.meetings.push({id: 100, date: date, members: 0, guests: 0})
+  ADD_MEETING(state, meeting) {
+    state.meetings.push(meeting)
+  },
+  SET_MEETINGS(state, meetings) {
+    state.meetings = meetings
   },
   ADD_NEW_SPEECH(state) {
     state.meeting.speeches.push({
@@ -118,8 +102,16 @@ export const actions = {
   setSpeech({commit}, speech) {
     commit('SET_SPEECH', speech)
   },
-  addNewMeeting({commit}, date) {
-    commit('ADD_NEW_MEETING', date)
+  async addMeeting({dispatch, commit}, date) {
+    const meeting = await this.$axios.post('http://biconnect.herokuapp.com/groups/1/meetings', {
+      date: date
+    }).data
+    commit('ADD_MEETING', meeting)
+  },
+  async fetchMeetings({commit}) {
+    const meetings = await this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings').data
+    // -> coś nie tak z tym bo tu powinny być dane z backednu, a to wyżej chyba wykonuje się później console.log(meetings)
+    // commit('SET_MEETINGS', meetings)
   },
   updateMeetingDate({commit}, date) {
     console.log('tutaj będzie request czy cokolwiek..', date)

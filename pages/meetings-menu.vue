@@ -1,7 +1,7 @@
 <template>
   <b-container class="mt-4">
     <h1>Spotkania</h1>
-    <el-date-picker type="date" v-model="meetingDate"  value-format="dd-MM-yyyy"></el-date-picker>
+    <el-date-picker type="date" v-model="meetingDate" format="dd.MM.yyyy" value-format="yyyy-MM-dd"></el-date-picker>
     <el-button class="ml-2" @click="addNewMeeting" type="success" plain>Dodaj spotkanie</el-button>
 
     <el-table
@@ -9,6 +9,7 @@
       highlight-current-row
       @current-change="handleCurrentChange">
       <el-table-column
+        property="id"
         type="index">
       </el-table-column>
       <el-table-column
@@ -16,11 +17,11 @@
         label="Data">
       </el-table-column>
       <el-table-column
-        property="members"
+        property="count_members"
         label="Liczba członków">
       </el-table-column>
       <el-table-column
-        property="guests"
+        property="count_guests"
         label="Liczba gości">
       </el-table-column>
     </el-table>
@@ -36,6 +37,9 @@
       return {
           meetingDate: this.getToday()
       }
+    },
+    mounted() {
+      this.$store.dispatch('meetings/fetchMeetings', this.meetingDate)
     },
     computed: {
       ...mapGetters({
@@ -62,7 +66,7 @@
         this.$router.push("/meeting")
       },
       addNewMeeting(){
-        this.$store.dispatch('meetings/addNewMeeting', this.meetingDate)
+        this.$store.dispatch('meetings/addMeeting', this.meetingDate)
       }
     }
   }
