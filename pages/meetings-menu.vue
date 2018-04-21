@@ -9,7 +9,6 @@
       highlight-current-row
       @current-change="handleCurrentChange">
       <el-table-column
-        property="index"
         type="index">
       </el-table-column>
       <el-table-column
