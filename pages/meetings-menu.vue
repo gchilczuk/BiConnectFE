@@ -7,7 +7,7 @@
     <el-table
       :data="tableData"
       highlight-current-row
-      @current-change="handleCurrentChange">
+      @row-click="handleRowClicked">
       <el-table-column
         type="index">
       </el-table-column>
@@ -66,10 +66,12 @@
         console.log("set cd" + today)
         return today
       },
-      async handleCurrentChange(meeting) {
-        await this.$store.dispatch('meetings/setCurrMeeting', meeting.id)
-        await this.$store.dispatch('meetings/fetchMeeting', meeting.id)
-        this.$router.push("/meeting")
+      async handleRowClicked(row, event, column) {
+        if (event.target.nodeName !== 'BUTTON') {
+          await this.$store.dispatch('meetings/setCurrMeeting', row.id)
+          await this.$store.dispatch('meetings/fetchMeeting', row.id)
+          this.$router.push("/meeting")
+        }
       },
       handleDelete(index, row) {
         this.$store.dispatch('meetings/removeMeeting', index)
