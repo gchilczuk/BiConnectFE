@@ -34,8 +34,8 @@
     <el-row>
       <el-table
         ref="speechTable"
+        :row-class-name="tableRowClassName"
         :data="activeMeeting.speeches"
-        highlight-current-row
         @row-click="handleRowClicked">
         <el-table-column
           type="index">
@@ -66,25 +66,59 @@
     data() {
       return {
         isMeetingDateDisabled: true,
-        meetingDate: null
+        meetingDate: null,
+        selectedRow: null
       }
     },
     computed: {
       ...mapGetters({
         activeMeeting: 'meetings/activeMeeting',
         activeSpeechTableIndex: 'meetings/activeSpeechTableInd',
+        unsavedChanges: 'meetings/unsavedChanges'
       })
     },
     methods: {
+      tableRowClassName({row, rowIndex}) {
+        if (row === this.selectedRow) {
+          return 'success-row';
+        }
+        return '';
+      },
+      highlineRow(row) {
+        this.selectedRow = row
+      },
       clearTableSelection() {
-        this.$refs.speechTable.setCurrentRow(null);
+        this.selectedRow = null
+      },
+      changeActiveSpeech: function (row) {
+        let currentRow = this.activeMeeting.speeches.indexOf(row)
+        this.$store.dispatch('meetings/setActiveSpeechTableInd', currentRow)
+        this.$store.dispatch('meetings/setActiveSpeechEntityInd', row.id)
       },
       handleRowClicked(row, event, column) {
         if (event.target.nodeName !== 'BUTTON') {
-          let currentRow = this.activeMeeting.speeches.indexOf(row)
-          this.$store.dispatch('meetings/setActiveSpeechTableInd', currentRow)
-          this.$store.dispatch('meetings/setActiveSpeechEntityInd', row.id)
-          this.$emit('recreate-right-pane')
+          if (this.unsavedChanges) {
+            this.$swal({
+              title: 'Czy jesteś pewny?',
+              text: "W formularzu istnieją niezapisane dane!",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Odrzuć zmiany!',
+              cancelButtonText: 'Powróć do formularza',
+              reverseButtons: true
+            }).then((result) => {
+              if (result.value) {
+                this.$store.dispatch('meetings/setUnsavedChanges', false)
+                this.changeActiveSpeech(row);
+                this.highlineRow(row)
+              }
+            })
+          } else {
+            this.changeActiveSpeech(row)
+            this.highlineRow(row)
+          }
         }
       },
       async addSpeech() {
@@ -135,5 +169,9 @@
 <style>
   .el-input.is-disabled .el-input__inner {
     background-color: white;
+  }
+
+  .el-table .success-row {
+    background: #f0f9eb;
   }
 </style>
