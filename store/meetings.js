@@ -121,8 +121,8 @@ export const actions = {
   setCurrMeeting({commit}, ind) {
     commit('SET_CURR_MEETING', ind)
   },
-  updateMeetingDate({commit}, date) {
-    console.log('tutaj będzie request czy cokolwiek..', date)
+  updateMeetingDate({commit}, {meetingId, meetingDate}) {
+    this.$axios.patch(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}`, {date: meetingDate})
   },
   setUnsavedChanges({commit}, booleanValue) {
     commit('SET_UNSAVED_CHANGES', booleanValue)
