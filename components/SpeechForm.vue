@@ -16,6 +16,15 @@
           </el-form-item>
         </b-col>
       </b-row>
+      <el-form-item label="Osoba ">
+          <el-autocomplete
+            class="inline-input"
+            v-model="personInput"
+            :fetch-suggestions="querySearch"
+            value-key="search_key"
+            placeholder="Please Input"
+            @select="handleSelect"></el-autocomplete>
+      </el-form-item>
       <el-form-item>
         <h5>Potrzeby</h5>
         <b-row>
@@ -77,7 +86,9 @@
     data() {
       return {
         people: null,
+        personInput: null,
         speech: {
+          person: null,
           requirements: [],
           recommendations: []
         },
@@ -85,14 +96,38 @@
         recommendationsCounter: 0
       }
     },
+    async mounted() {
+      const result = await this.$axios.get('http://biconnect.herokuapp.com/people')
+      result.data.forEach(function(e) { e.search_key = e.first_name + ' ' + e.last_name; })
+      this.people = result.data
+    },
     watch: {
       activeSpeechTableInd: function () {
         this.speech = this.$store.getters['meetings/activeSpeech']
+        this.personInput = this.speech.person && this.speech.person.first_name + ' ' + this.speech.person.last_name,
         this.requirementsCounter = this.speech && this.speech.requirements && this.speech.requirements.length
         this.recommendationsCounter = this.speech && this.speech.recommendations && this.speech.recommendations.length
       }
     },
     methods: {
+      querySearch(queryString, cb) {
+        const results = queryString ? this.people.filter(this.createFilter(queryString)) : this.people
+        cb(results);
+      },
+      createFilter(queryString) {
+        return (people) => {
+          const name = people.first_name + ' ' + people.last_name
+          return (name.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+        };
+      },
+      handleSelect(item) {
+        this.dataChanged()
+        this.speech.person = {
+          first_name: item.first_name,
+          last_name: item.last_name,
+          username: item.username
+        }
+      },
       close: function () {
         if (this.unsavedChanges) {
           this.$swal({
