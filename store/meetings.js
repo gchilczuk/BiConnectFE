@@ -81,8 +81,6 @@ export const actions = {
     await this.$axios.delete(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}`)
     let speeches = await this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches`)
     commit('SET_SPEECHES', speeches.data)
-
-    // dispatch('fetchMeeting', meetingId)
   },
   async updateSpeech({dispatch, commit}, {meetingId, speechId, speech}) {
     await this.$axios.put(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}`, speech)

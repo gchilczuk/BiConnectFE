@@ -121,7 +121,7 @@
           }
         }
       },
-      async addSpeech() {
+      addSpeech() {
         const meetingId = this.activeMeeting.id
         this.$store.dispatch('meetings/addSpeech', meetingId)
       },
