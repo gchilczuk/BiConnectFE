@@ -122,10 +122,13 @@
         }
       },
       addSpeech() {
-        this.$store.dispatch('meetings/addNewSpeech')
+        const meetingId = this.activeMeeting.id
+        this.$store.dispatch('meetings/addSpeech', meetingId)
       },
       handleDelete(index, row) {
-        this.$store.dispatch('meetings/removeSpeechById', index)
+        const meetingId = this.activeMeeting.id
+        const speechId = row.id
+        this.$store.dispatch('meetings/removeSpeechById', {meetingId, speechId})
       },
       changeMeetingDate() {
         this.isMeetingDateDisabled = false
