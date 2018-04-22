@@ -1,109 +1,64 @@
 <template>
-  <div>
-
-
-
-
-    <b-container class="mt-4">
-      <el-form label-width="120px" v-if="activeSpeech">
+  <b-container class="mt-4">
+    <el-form label-width="120px" v-if="activeSpeechTableInd != null">
+      <b-row>
+        <b-col>
+          <el-form-item>
+            <el-button type="primary" @click="close">Zamknij</el-button>
+          </el-form-item>
+        </b-col>
+        <b-col class="text-right">
+          <el-form-item>
+            <el-upload action="#">
+              <span class="mr-1">Użyj nagrania </span>
+              <el-button size="small" type="success" circle><i class="el-icon-upload el-icon-right"></i></el-button>
+            </el-upload>
+          </el-form-item>
+        </b-col>
+      </b-row>
+      <el-form-item>
+        <h5>Potrzeby</h5>
         <b-row>
-          <b-col>
-            <el-form-item>
-              <el-button type="primary" @click="close">Zamknij</el-button>
-            </el-form-item>
-          </b-col>
-          <b-col  class="text-right">
-            <el-form-item >
-              <el-upload action="#">
-                <span class="mr-1">Użyj nagrania </span>
-                <el-button size="small" type="success" circle><i class="el-icon-upload el-icon-right"></i></el-button>
-              </el-upload>
-            </el-form-item>
-          </b-col>
+            <span class="ml-3">
+              <el-button type="primary" @click="increaseRequirementsCounter" size="small"
+                         plain>Nowa potrzeba</el-button>
+              <el-button type="primary" @click="increaseRequirementsCounter" size="small" plain>Usuń</el-button>
+            </span>
         </b-row>
-          <!--<el-select slot="prepend" placeholder="Select">-->
-            <!--&lt;!&ndash;<el-option v-for="ludz in this.ludzie" :label="ludz.imie" :value="ludz.id" :key="ludz.id"></el-option>&ndash;&gt;-->
-            <!--<el-option label="ludz.imie" value="1"></el-option>-->
-            <!--<el-option label="Restaurant" value="1"></el-option>-->
-            <!--<el-option label="Order No." value="2"></el-option>-->
-            <!--<el-option label="Tel" value="3"></el-option>-->
-          <!--</el-select>-->
-        <el-form-item>
-
-          <el-select v-model="select" slot="prepend" placeholder="Select">
-            <el-option label="Restaurant" value="1"></el-option>
-            <el-option label="Order No." value="2"></el-option>
-            <el-option label="Tel" value="3"></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="Activity zone">
-          <el-select v-model="select" placeholder="please select your zone">
-            <el-option label="Zone one" value="shanghai"></el-option>
-            <el-option label="Zone two" value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-
-        <!--<b-row>-->
-            <!--<b-col>-->
-              <!--<el-input id="personNameInput" name="personNamesInput"-->
-                        <!--type="text"-->
-                        <!--v-model="speech.name"-->
-                        <!--placeholder="Imię"-->
-                        <!--@blur="quickSave"/>-->
-            <!--</b-col>-->
-            <!--<b-col>-->
-              <!--<el-input id="personSurnameInput" name="personNamesInput"-->
-                        <!--type="text"-->
-                        <!--v-model="speech.surname"-->
-                        <!--placeholder="Nazwisko"-->
-                        <!--@blur="quickSave"/>-->
-            <!--</b-col>-->
-          <!--</b-row>-->
-          <!--<el-checkbox v-model="speech.guest" size="medium" border>Gość</el-checkbox>-->
-
-        <el-form-item>
-          <h5>Potrzeby</h5>
-          <b-row>
+      </el-form-item>
+      <el-form-item v-for="number in requirementsCounter" v-bind:key="'req_ex' + number"
+                    v-bind:label="'Potrzeba ' + number">
+        <el-input v-bind:key="'req_in' + number" name="needTextInput"
+                  :autosize="{ minRows: 4}"
+                  type="textarea"
+                  v-model="speech.requirements[number - 1].description"
+                  placeholder="Potrzeba zgłoszona przez osobę prezentującą"/>
+        <!--@blur="saveRequirements"/>-->
+      </el-form-item>
+      <el-form-item>
+        <h5>Rekomendacje</h5>
+        <b-row>
             <span class="ml-3">
-              <el-button type="primary" @click="addNeed" size="small" plain>Nowa potrzeba</el-button>
-              <el-button type="primary" @click="decreaseNeed" size="small" plain>Usuń</el-button>
+              <el-button type="primary" @click="incrementRecommendationsCounter" size="small"
+                         plain>Nowa rekomendacja</el-button>
+              <el-button type="primary" @click="decreaseRecommendationsCounter" size="small" plain>Usuń</el-button>
             </span>
-          </b-row>
-        </el-form-item>
-        <el-form-item v-for="nr in needCounter" v-bind:key="'needItem'+nr" v-bind:label="'Potrzeba '+nr">
-          <el-input v-bind:key="'needInput'+nr" name="needTextInput"
-                    :autosize="{ minRows: 4}"
-                    type="textarea"
-                    v-model="speech.requirements[nr-1]"
-                    placeholder="Potrzeba zgłoszona przez osobę prezentującą"
-                    @blur="quickSave"/>
-        </el-form-item>
-
-        <el-form-item>
-          <h5>Rekomendacje</h5>
-
-          <b-row>
-            <span class="ml-3">
-              <el-button type="primary" @click="addRecommendation" size="small" plain>Nowa rekomendacja</el-button>
-              <el-button type="primary" @click="decreaseRecommendation" size="small" plain>Usuń</el-button>
-            </span>
-          </b-row>
-        </el-form-item>
-        <el-form-item v-for="nr in recommendCounter" v-bind:key="'recommendItem'+nr" v-bind:label="'Rekomendacja '+nr">
-          <el-input v-bind:key="'recommendInput'+nr" name="needTextInput"
-                    :autosize="{ minRows: 4}"
-                    type="textarea"
-                    v-model="speech.recommendations[nr-1]"
-                    placeholder="Rekomendacja osoby prezentującej"
-                    @blur="quickSave"/>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit">Zapisz</el-button>
-        </el-form-item>
-      </el-form>
-    </b-container>
-  </div>
+        </b-row>
+      </el-form-item>
+      <el-form-item v-for="number in recommendationsCounter" v-bind:key="'rec_ex' + number"
+                    v-bind:label="'Rekomendacja ' + number">
+        <el-input v-bind:key="'rec_in' + number" name="needTextInput"
+                  :autosize="{ minRows: 4}"
+                  type="textarea"
+                  v-model="speech.recommendations[number - 1].description"
+                  placeholder="Rekomendacja osoby prezentującej"/>
+        <!--@blur="saveRecommendations"/>-->
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="updateSpeech">Zapisz</el-button>
+      </el-form-item>
+    </el-form>
+  </b-container>
 </template>
 
 <script>
@@ -111,88 +66,69 @@
 
   export default {
     name: "SpeechForm",
-    mounted() {
-      this.loadData()
+    computed: {
+      ...mapGetters({
+        activeMeetingEntityInd: 'meetings/activeMeetingEntityInd',
+        activeSpeechTableInd: 'meetings/activeSpeechTableInd',
+        activeSpeechEntityInd: 'meetings/activeSpeechEntityInd'
+      })
     },
     data() {
       return {
-
+        people: null,
         speech: {
-          id: null,
-          person: {
-            first_name:'',
-            last_name: '',
-            username:''
-          },
           requirements: [],
-          recommendations: [],
-          guest: false
+          recommendations: []
         },
-        select: '',
-        needCounter: 0,
-        recommendCounter: 0,
-        ludzie: [{imie:'a',nazwisko:'aa',id:5}]
+        requirementsCounter: 0,
+        recommendationsCounter: 0
       }
     },
     watch: {
-      a: function (val, oldVal) {
-        if (val !== null && typeof val !== 'undefined')
-          this.loadData()
+      activeSpeechTableInd: function () {
+        this.speech = this.$store.getters['meetings/activeSpeech']
+        this.requirementsCounter = this.speech.requirements.length
+        this.recommendationsCounter = this.speech.recommendations.length
       }
     },
-    computed: {
-      activeSpeech() {
-        return this.$store.getters['meetings/activeSpeechInd'] != null
-      },
-      speeches() {
-        return this.$store.getters['meetings/speeches']
-      },
-      a: {
-        get() {
-          return this.$store.getters['meetings/activeSpeechInd']
-        }
-      },
-    },
-
     methods: {
-      loadData() {
-        if (this.speeches.length > 0) {
-          this.speech.id = this.$store.getters['meetings/activeSpeechInd']
-          let sp = this.speeches.find(speech => speech.id === this.speech.id)
-          if (sp != null) {
-            // this.speech.requirements = sp.requirements.slice(0)
-            // this.speech.recommendations = sp.recommendations.slice(0)
-            this.needCounter = sp.requirements.length
-            this.recommendCounter = sp.recommendations.length
-            this.speech.person.first_name = sp.person.first_name,
-            this.speech.person.last_name = sp.person.last_name
-          }
+      close() {
+        this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
+      },
+      increaseRequirementsCounter() {
+        this.requirementsCounter += 1
+        this.speech.requirements.push({
+          description: ''
+        })
+      },
+      decreaseRequirementsCounter() {
+        if (this.requirementsCounter > 0) {
+          this.requirementsCounter -= 1
+          this.speech.requirements.pop()
         }
       },
-      close() {
-        this.$store.dispatch('meetings/setActiveSpeech', null)
+      incrementRecommendationsCounter() {
+        this.recommendationsCounter += 1
+        this.speech.recommendations.push({
+          description: ''
+        })
       },
-      addNeed() {
-        this.needCounter += 1
+      decreaseRecommendationsCounter() {
+        if (this.recommendationsCounter > 0) {
+          this.recommendationsCounter -= 1
+          this.speech.recommendations.pop()
+        }
       },
-      decreaseNeed() {
-        if (this.needCounter > 0)
-          this.needCounter -= 1
-      },
-      addRecommendation() {
-        this.recommendCounter += 1
-      },
-      decreaseRecommendation() {
-        if (this.recommendCounter > 0)
-          this.recommendCounter -= 1
-      },
-      quickSave() {
-        this.$store.dispatch('meetings/setSpeech', Object.assign({}, this.speech))
-      },
-      onSubmit() {
-        // this.speech.requirements = this.speech.requirements.slice(0, this.needCounter)
-        // this.speech.recommendations = this.speech.recommendations.slice(0, this.recommendCounter)
-        this.quickSave()
+      async updateSpeech() {
+        const meetingId = this.activeMeetingEntityInd
+        const speechId = this.activeSpeechEntityInd
+        const speech = this.speech
+        await this.$store.dispatch('meetings/updateSpeech', {
+          meetingId: meetingId,
+          speechId: speechId,
+          speech: speech
+        })
+
         this.$notify({
           title: 'Zapisano wystąpienie',
           type: 'success',
@@ -200,8 +136,6 @@
         })
       }
     }
-
-
   }
 </script>
 

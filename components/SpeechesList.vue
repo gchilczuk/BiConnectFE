@@ -36,16 +36,16 @@
         ref="speechTable"
         :data="activeMeeting.speeches"
         highlight-current-row
-        @current-change="handleCurrentChange">
+        @row-click="handleRowClicked">
         <el-table-column
           type="index">
         </el-table-column>
         <el-table-column
-          property="name"
+          property="person.first_name"
           label="Imię">
         </el-table-column>
         <el-table-column
-          property="surname"
+          property="person.last_name"
           label="Nazwisko">
         </el-table-column>
         <el-table-column label="" align="right">
@@ -71,17 +71,21 @@
     },
     computed: {
       ...mapGetters({
-        activeMeeting: 'meetings/meeting',
-        activeSpeechIndex: 'meetings/activeSpeechInd'
+        activeMeeting: 'meetings/activeMeeting',
+        activeSpeechTableIndex: 'meetings/activeSpeechTableInd'
       })
     },
     methods: {
       clearTableSelection() {
         this.$refs.speechTable.setCurrentRow(null);
       },
-      handleCurrentChange(val) {
-        let currentRow = val == null ? null : val.id
-        this.$store.dispatch('meetings/setActiveSpeech', currentRow)
+      handleRowClicked(row, event, column) {
+        if (event.target.nodeName !== 'BUTTON') {
+          let currentRow = this.activeMeeting.speeches.indexOf(row)
+          this.$store.dispatch('meetings/setActiveSpeechTableInd', currentRow)
+          this.$store.dispatch('meetings/setActiveSpeechEntityInd', row.id)
+          this.$emit('recreate-right-pane')
+        }
       },
       addSpeech() {
         this.$store.dispatch('meetings/addNewSpeech')
