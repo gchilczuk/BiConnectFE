@@ -31,9 +31,9 @@
         <el-input v-bind:key="'req_in' + number" name="needTextInput"
                   :autosize="{ minRows: 4}"
                   type="textarea"
+                  @change="dataChanged"
                   v-model="speech.requirements[number - 1].description"
                   placeholder="Potrzeba zgłoszona przez osobę prezentującą"/>
-        <!--@blur="saveRequirements"/>-->
       </el-form-item>
       <el-form-item>
         <h5>Rekomendacje</h5>
@@ -50,9 +50,9 @@
         <el-input v-bind:key="'rec_in' + number" name="needTextInput"
                   :autosize="{ minRows: 4}"
                   type="textarea"
+                  @change="dataChanged"
                   v-model="speech.recommendations[number - 1].description"
                   placeholder="Rekomendacja osoby prezentującej"/>
-        <!--@blur="saveRecommendations"/>-->
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="updateSpeech">Zapisz</el-button>
@@ -70,7 +70,8 @@
       ...mapGetters({
         activeMeetingEntityInd: 'meetings/activeMeetingEntityInd',
         activeSpeechTableInd: 'meetings/activeSpeechTableInd',
-        activeSpeechEntityInd: 'meetings/activeSpeechEntityInd'
+        activeSpeechEntityInd: 'meetings/activeSpeechEntityInd',
+        unsavedChanges: 'meetings/unsavedChanges'
       })
     },
     data() {
@@ -87,13 +88,36 @@
     watch: {
       activeSpeechTableInd: function () {
         this.speech = this.$store.getters['meetings/activeSpeech']
-        this.requirementsCounter = this.speech.requirements.length
-        this.recommendationsCounter = this.speech.recommendations.length
+        this.requirementsCounter = this.speech && this.speech.requirements && this.speech.requirements.length
+        this.recommendationsCounter = this.speech && this.speech.recommendations && this.speech.recommendations.length
       }
     },
     methods: {
-      close() {
-        this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
+      close: function () {
+        this.$emit('clear-selection')
+        // if (this.unsavedChanges) {
+        //   this.$swal({
+        //     title: 'Czy jesteś pewny?',
+        //     text: "W formularzu istnieją niezapisane dane!",
+        //     type: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#3085d6',
+        //     cancelButtonColor: '#d33',
+        //     confirmButtonText: 'Odrzuć zmiany!',
+        //     cancelButtonText: 'Powróć do formularza',
+        //     reverseButtons: true
+        //   }).then((result) => {
+        //     if (result.value) {
+        //       this.$store.dispatch('meetings/setUnsavedChanges', false)
+        //       this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
+        //       this.$emit('clear-selection')
+        //     }
+        //   })
+        // } else {
+        //   this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
+        //   this.$emit('clear-selection')
+        // }
+        console.log('close invokedd')
       },
       increaseRequirementsCounter() {
         this.requirementsCounter += 1
@@ -134,6 +158,13 @@
           type: 'success',
           duration: 2000
         })
+
+        this.$store.dispatch('meetings/setUnsavedChanges', false)
+      },
+      dataChanged() {
+        if (!this.unsavedChanges) {
+          this.$store.dispatch('meetings/setUnsavedChanges', true)
+        }
       }
     }
   }

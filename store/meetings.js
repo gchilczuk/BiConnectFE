@@ -11,7 +11,8 @@ export const state = () => ({
     count_guests: null,
     group: null,
     speeches: []
-  }
+  },
+  unsavedChanges: false
 })
 
 export const getters = {
@@ -24,6 +25,7 @@ export const getters = {
   activeSpeech: state => state.meeting != null && state.activeSpeechTableInd != null &&
     JSON.parse(JSON.stringify(state.meeting.speeches[state.activeSpeechTableInd])),
   people: state => state.people,
+  unsavedChanges: state => state.unsavedChanges
 }
 
 export const mutations = {
@@ -61,6 +63,9 @@ export const mutations = {
       needs: [],
       recommendations: []
     });
+  },
+  SET_UNSAVED_CHANGES(state, booleanValue) {
+    state.unsavedChanges = booleanValue
   }
 }
 
@@ -114,5 +119,8 @@ export const actions = {
   },
   updateMeetingDate({commit}, date) {
     console.log('tutaj będzie request czy cokolwiek..', date)
+  },
+  setUnsavedChanges({commit}, booleanValue) {
+    commit('SET_UNSAVED_CHANGES', booleanValue)
   }
 }
