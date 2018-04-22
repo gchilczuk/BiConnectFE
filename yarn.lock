@@ -1890,7 +1890,7 @@ deepmerge@^1.2.0:
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-1.5.2.tgz#10499d868844cdad4fee0842df8c7f6f0c95a753"
 
-deepmerge@^2.0.0:
+deepmerge@^2.0.0, deepmerge@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-2.1.0.tgz#511a54fff405fc346f0240bb270a3e9533a31102"
 
@@ -5573,6 +5573,10 @@ shell-quote@^1.6.1:
     array-reduce "~0.0.0"
     jsonify "~0.0.0"
 
+shvl@^1.3.0:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/shvl/-/shvl-1.3.1.tgz#6c20a17b4a20b08e9f8cab60c50a92229fcc176e"
+
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
@@ -5906,6 +5910,10 @@ svgo@^0.7.0:
     mkdirp "~0.5.1"
     sax "~1.2.1"
     whet.extend "~0.9.9"
+
+sweetalert2@7.x:
+  version "7.19.1"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-7.19.1.tgz#ab00107fbd6f5fc051bd3941fbeb55a58c215ec1"
 
 table@4.0.2:
   version "4.0.2"
@@ -6383,6 +6391,12 @@ vue-style-loader@^3.0.0:
     hash-sum "^1.0.2"
     loader-utils "^1.0.2"
 
+vue-sweetalert2@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/vue-sweetalert2/-/vue-sweetalert2-1.2.4.tgz#7b7c9b56b02d26c1016f20a3fe342e1f2f0524fa"
+  dependencies:
+    sweetalert2 "7.x"
+
 vue-template-compiler@^2.5.13:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.5.16.tgz#93b48570e56c720cdf3f051cc15287c26fbd04cb"
@@ -6397,6 +6411,13 @@ vue-template-es2015-compiler@^1.6.0:
 vue@^2.5.13:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
+
+vuex-persistedstate@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/vuex-persistedstate/-/vuex-persistedstate-2.5.2.tgz#751752f03bdf6d7fc855106f0666f2ce13b415b5"
+  dependencies:
+    deepmerge "^2.1.0"
+    shvl "^1.3.0"
 
 vuex@^3.0.1:
   version "3.0.1"

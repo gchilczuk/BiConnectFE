@@ -65,7 +65,7 @@
       },
       async handleRowClicked(row, event, column) {
         if (event.target.nodeName !== 'BUTTON') {
-          await this.$store.dispatch('meetings/setCurrMeeting', row.id)
+          await this.$store.dispatch('meetings/setActiveMeetingEntityInd', row.id)
           await this.$store.dispatch('meetings/fetchMeeting', row.id)
           this.$router.push("/meeting")
         }
