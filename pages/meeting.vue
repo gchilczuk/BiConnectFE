@@ -2,10 +2,10 @@
   <div>
     <b-row :no-gutters="true">
       <b-col cols="5">
-        <speeches-list ref="speechesList"></speeches-list>
+        <speeches-list ref="speechesList"/>
       </b-col>
       <b-col cols="7">
-        <speech-form v-on:clear-selection="cos"></speech-form>
+        <speech-form @clearSelection="clearSelection"/>
       </b-col>
     </b-row>
   </div>
@@ -21,16 +21,9 @@
       SpeechForm
     },
     methods: {
-      cos() {
-        console.log('cos')
+      clearSelection() {
+        this.$refs.speechesList.clearTableSelection()
       }
-    },
-
-    mounted() {
-      this.$on('clear-selection', function () {
-        console.log('zlapany wyzej')
-        // this.$refs.speechesList.clearTableSelection()
-      })
     }
 
   }

@@ -20,9 +20,8 @@
         <h5>Potrzeby</h5>
         <b-row>
             <span class="ml-3">
-              <el-button type="primary" @click="increaseRequirementsCounter" size="small"
+              <el-button type="primary" @click="addRequirement" size="small"
                          plain>Nowa potrzeba</el-button>
-              <el-button type="primary" @click="increaseRequirementsCounter" size="small" plain>Usuń</el-button>
             </span>
         </b-row>
       </el-form-item>
@@ -34,14 +33,14 @@
                   @change="dataChanged"
                   v-model="speech.requirements[number - 1].description"
                   placeholder="Potrzeba zgłoszona przez osobę prezentującą"/>
+        <el-button type="primary" @click="removeRequirement(number - 1)" size="small" plain>Usuń</el-button>
       </el-form-item>
       <el-form-item>
         <h5>Rekomendacje</h5>
         <b-row>
             <span class="ml-3">
-              <el-button type="primary" @click="incrementRecommendationsCounter" size="small"
+              <el-button type="primary" @click="addRecommendation" size="small"
                          plain>Nowa rekomendacja</el-button>
-              <el-button type="primary" @click="decreaseRecommendationsCounter" size="small" plain>Usuń</el-button>
             </span>
         </b-row>
       </el-form-item>
@@ -53,6 +52,7 @@
                   @change="dataChanged"
                   v-model="speech.recommendations[number - 1].description"
                   placeholder="Rekomendacja osoby prezentującej"/>
+        <el-button type="primary" @click="removeRecommendation(number - 1)" size="small" plain>Usuń</el-button>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="updateSpeech">Zapisz</el-button>
@@ -94,72 +94,78 @@
     },
     methods: {
       close: function () {
-        this.$emit('clear-selection')
-        // if (this.unsavedChanges) {
-        //   this.$swal({
-        //     title: 'Czy jesteś pewny?',
-        //     text: "W formularzu istnieją niezapisane dane!",
-        //     type: 'warning',
-        //     showCancelButton: true,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        //     confirmButtonText: 'Odrzuć zmiany!',
-        //     cancelButtonText: 'Powróć do formularza',
-        //     reverseButtons: true
-        //   }).then((result) => {
-        //     if (result.value) {
-        //       this.$store.dispatch('meetings/setUnsavedChanges', false)
-        //       this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
-        //       this.$emit('clear-selection')
-        //     }
-        //   })
-        // } else {
-        //   this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
-        //   this.$emit('clear-selection')
-        // }
-        console.log('close invokedd')
+        if (this.unsavedChanges) {
+          this.$swal({
+            title: 'Czy jesteś pewny?',
+            text: "W formularzu istnieją niezapisane dane!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Odrzuć zmiany!',
+            cancelButtonText: 'Powróć do formularza',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.value) {
+              this.$store.dispatch('meetings/setUnsavedChanges', false)
+              this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
+              this.$emit('clearSelection')
+            }
+          })
+        } else {
+          this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
+          this.$emit('clearSelection')
+        }
       },
-      increaseRequirementsCounter() {
+      addRequirement() {
         this.requirementsCounter += 1
         this.speech.requirements.push({
           description: ''
         })
       },
-      decreaseRequirementsCounter() {
+      removeRequirement(arrayIndex) {
         if (this.requirementsCounter > 0) {
           this.requirementsCounter -= 1
-          this.speech.requirements.pop()
+          this.speech.requirements.splice(arrayIndex, 1)
+          this.dataChanged()
         }
       },
-      incrementRecommendationsCounter() {
+      addRecommendation() {
         this.recommendationsCounter += 1
         this.speech.recommendations.push({
           description: ''
         })
       },
-      decreaseRecommendationsCounter() {
+      removeRecommendation(arrayIndex) {
         if (this.recommendationsCounter > 0) {
           this.recommendationsCounter -= 1
-          this.speech.recommendations.pop()
+          this.speech.recommendations.splice(arrayIndex, 1)
+          this.dataChanged()
         }
       },
       async updateSpeech() {
         const meetingId = this.activeMeetingEntityInd
         const speechId = this.activeSpeechEntityInd
         const speech = this.speech
-        await this.$store.dispatch('meetings/updateSpeech', {
-          meetingId: meetingId,
-          speechId: speechId,
-          speech: speech
-        })
-
-        this.$notify({
-          title: 'Zapisano wystąpienie',
-          type: 'success',
-          duration: 2000
-        })
-
-        this.$store.dispatch('meetings/setUnsavedChanges', false)
+        try {
+          await this.$store.dispatch('meetings/updateSpeech', {
+            meetingId: meetingId,
+            speechId: speechId,
+            speech: speech
+          })
+          this.$notify({
+            title: 'Zapisano wystąpienie',
+            type: 'success',
+            duration: 2000
+          })
+          this.$store.dispatch('meetings/setUnsavedChanges', false)
+        } catch (error) {
+          this.$notify({
+            title: 'Wystąpił błąd podczas zapisu danych',
+            type: 'error',
+            duration: 2000
+          })
+        }
       },
       dataChanged() {
         if (!this.unsavedChanges) {

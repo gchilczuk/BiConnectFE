@@ -45,7 +45,7 @@ export const mutations = {
     state.meetings = meetings
   },
   SET_PEOPLE(state, people) {
-    state.people= people
+    state.people = people
   },
   SET_MEETING(state, meeting) {
     state.meeting = meeting
@@ -109,9 +109,13 @@ export const actions = {
     dispatch('fetchMeetings')
   },
   async fetchMeeting({commit, getters}, index) {
-    let meeting = await this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${index}`)
-    commit('SET_MEETING', meeting.data)
-    return Promise.resolve()
+    try {
+      let meeting = await this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${index}`)
+      commit('SET_MEETING', meeting.data)
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
+    }
   },
   setActiveMeetingEntityInd({commit}, entityIndex) {
     commit('SET_ACTIVE_MEETING_ENTITY_IND', entityIndex)

@@ -88,7 +88,7 @@
         this.selectedRow = row
       },
       clearTableSelection() {
-        this.$refs.speechTable.setCurrentRow(null);
+        this.selectedRow = null
       },
       changeActiveSpeech: function (row) {
         let currentRow = this.activeMeeting.speeches.indexOf(row)
@@ -167,6 +167,7 @@
   .el-input.is-disabled .el-input__inner {
     background-color: white;
   }
+
   .el-table .success-row {
     background: #f0f9eb;
   }
