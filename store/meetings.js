@@ -1,6 +1,5 @@
-import Vue from 'vue'
-
 export const state = () => ({
+  activeMeetingInd: null,
   meeting: {
     id: null,
     date: null,
@@ -14,6 +13,7 @@ export const state = () => ({
 })
 
 export const getters = {
+  activeMeetingInd: state => state.activeMeetingInd,
   activeSpeechInd: state => state.activeSpeechInd,
   speeches: state => state.meeting.speeches,
   meetings: state => state.meetings,
@@ -39,18 +39,14 @@ export const mutations = {
   REMOVE_SPEECH(state, ind) {
     state.meeting.speeches.pop()
   },
+  ADD_MEETING(state, meeting) {
+    state.meetings.push(meeting)
+  },
   SET_MEETINGS(state, meetings) {
     state.meetings = meetings
   },
-  ADD_NEW_MEETING(state, date) {
-    state.meetings.push({
-      id: state.meetings.length,
-      date: date,
-      count_members: 0,
-      count_guests: 0,
-      group: null,
-      speeches: []
-    })
+  SET_MEETING(state, meeting) {
+    state.meeting = meeting
   },
   SET_CURR_MEETING(state, ind) {
     state.meeting = state.meetings.find(me => me.id === ind)
@@ -71,66 +67,6 @@ export const actions = {
   setActiveSpeech({commit}, ind) {
     commit('SET_ACTIVE_SPEECH', ind)
   },
-  fetchMeetings({commit}) {
-    const meetings = [{
-      id: 0,
-      date: '05-04-2018',
-      count_members: 4,
-      count_guests: 1,
-      group: null,
-      speeches: []
-    }, {
-      id: 1,
-      date: '29-03-2018',
-      count_members: 0,
-      count_guests: 0,
-      group: null,
-      speeches:[{
-        id: 1,
-        name: 'Jan',
-        surname: 'Kowalski',
-        needs: ['Jan Kowalski potrzeba 1', 'Jego druga potrzeba'],
-        recommendations: ['Kowalski, rekomendacja'],
-        guest: false}]
-    }, {
-      id: 2,
-      date: '15-03-2018',
-      count_members: 0,
-      count_guests: 0,
-      group: null,
-      speeches: [{
-        id: 2,
-        name: 'Paweł',
-        surname: 'Nowak',
-        needs: ['Mało towaru mi się sprzedaje, potrzebuję reklamy', 'Chcę obniżyć koszty dostawy'],
-        recommendations: ['Polecam moją księgarnię internetową!'],
-        guest: true
-      }]
-    }, {
-      id: 3,
-      date: '5-03-2018',
-      count_members: 0,
-      count_guests: 0,
-      group: null,
-      speeches:[{
-        id: 1,
-        name: 'Jan',
-        surname: 'Kowalski',
-        needs: ['Jan Kowalski potrzeba 1', 'Jego druga potrzeba'],
-        recommendations: ['Kowalski, rekomendacja'],
-        guest: false
-
-      }, {
-        id: 2,
-        name: 'Paweł',
-        surname: 'Nowak',
-        needs: ['Mało towaru mi się sprzedaje, potrzebuję reklamy', 'Chcę obniżyć koszty dostawy'],
-        recommendations: ['Polecam moją księgarnię internetową!'],
-        guest: true
-      }]
-    }]
-    commit('SET_MEETINGS', meetings)
-  },
   addNewSpeech({commit}) {
     commit('ADD_NEW_SPEECH')
   },
@@ -143,11 +79,28 @@ export const actions = {
   setSpeech({commit}, speech) {
     commit('SET_SPEECH', speech)
   },
-  setMeetings({commit}, meetings) {
-    commit('SET_MEETINGS', meetings)
+  async addMeeting({dispatch, commit}, date) {
+    const meeting = await this.$axios.post('http://biconnect.herokuapp.com/groups/1/meetings', {
+      date: date
+    })
+    commit('ADD_MEETING', meeting.data)
   },
-  addNewMeeting({commit}, date) {
-    commit('ADD_NEW_MEETING', date)
+  async fetchMeetings({commit}) {
+    const meetings = await this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings')
+    commit('SET_MEETINGS', meetings.data)
+  },
+  async removeMeeting({dispatch, commit}, index) {
+    await this.$axios.delete(`http://biconnect.herokuapp.com/groups/1/meetings/${index}`)
+    dispatch('fetchMeetings')
+  },
+  async fetchMeeting({commit, getters}, index) {
+    let meeting = await this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${index}`)
+    commit('SET_MEETING', meeting.data)
+    return Promise.resolve()
+  },
+  setCurrMeeting({commit}, ind) {
+    commit('SET_CURR_MEETING', ind)
+    return Promise.resolve()
   },
   setCurrMeeting({commit}, ind) {
     commit('SET_CURR_MEETING', ind)
