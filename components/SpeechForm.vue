@@ -119,7 +119,7 @@
         };
       },
       handleSelect(item) {
-        console.log(item)
+        this.dataChanged()
         this.speech.person = {
           first_name: item.first_name,
           last_name: item.last_name,
