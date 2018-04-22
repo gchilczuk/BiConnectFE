@@ -2,7 +2,7 @@
   <b-container class="mt-4">
     <h1>Spotkania</h1>
     <el-date-picker type="date" v-model="meetingDate" format="dd.MM.yyyy" value-format="yyyy-MM-dd"/>
-    <el-button class="ml-2" @click="addNewMeeting" type="success" plain>Dodaj spotkanie</el-button>
+    <el-button class="ml-2" @click="addMeeting" type="success" plain>Dodaj spotkanie</el-button>
     <el-table
       :data="tableData"
       highlight-current-row
