@@ -105,8 +105,8 @@
               text: "W formularzu istnieją niezapisane dane!",
               type: 'warning',
               showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
               confirmButtonText: 'Odrzuć zmiany!',
               cancelButtonText: 'Powróć do formularza',
               reverseButtons: true
@@ -128,9 +128,24 @@
         this.$store.dispatch('meetings/addSpeech', meetingId)
       },
       handleDelete(index, row) {
-        const meetingId = this.activeMeeting.id
-        const speechId = row.id
-        this.$store.dispatch('meetings/removeSpeechById', {meetingId, speechId})
+        this.$swal({
+            title: 'Czy jesteś pewny?',
+            text: "Usunąć wystąpienie " + row.person.first_name + " " + row.person.last_name + "?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Usuń',
+            cancelButtonText: 'Anuluj',
+            reverseButtons: true
+          }).then((result) => {
+            if (result.value) {
+              const meetingId = this.activeMeeting.id
+              const speechId = row.id
+              this.$store.dispatch('meetings/removeSpeechById', {meetingId, speechId})
+            }
+          })
+
       },
       changeMeetingDate() {
         this.isMeetingDateDisabled = false

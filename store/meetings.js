@@ -35,9 +35,6 @@ export const mutations = {
   SET_ACTIVE_SPEECH_ENTITY_IND(state, ind) {
     state.activeSpeechEntityInd = ind
   },
-  ADD_MEETING(state, meeting) {
-    state.meetings.push(meeting)
-  },
   SET_MEETINGS(state, meetings) {
     state.meetings = meetings
   },
@@ -88,10 +85,10 @@ export const actions = {
     return Promise.resolve()
   },
   async addMeeting({dispatch, commit}, date) {
-    const meeting = await this.$axios.post('http://biconnect.herokuapp.com/groups/1/meetings', {
+    await this.$axios.post('http://biconnect.herokuapp.com/groups/1/meetings', {
       date: date
     })
-    commit('ADD_MEETING', meeting.data)
+    dispatch('fetchMeetings')
   },
   async fetchMeetings({commit}) {
     const meetings = await this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings')

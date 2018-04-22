@@ -71,7 +71,20 @@
         }
       },
       handleDelete(index, row) {
-        this.$store.dispatch('meetings/removeMeeting', row.id)
+        this.$swal({
+            title: 'Czy jesteś pewny?',
+            text: "Usunąć spotkanie z dnia " + row.date + "?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Usuń',
+            cancelButtonText: 'Anuluj',
+          }).then((result) => {
+            if (result.value) {
+              this.$store.dispatch('meetings/removeMeeting', row.id)
+            }
+          })
       },
       addMeeting() {
         this.$store.dispatch('meetings/addMeeting', this.meetingDate)
