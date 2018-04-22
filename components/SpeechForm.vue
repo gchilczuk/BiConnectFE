@@ -16,6 +16,15 @@
           </el-form-item>
         </b-col>
       </b-row>
+      <el-form-item label="Osoba ">
+          <el-autocomplete
+            class="inline-input"
+            v-model="speech.people"
+            :fetch-suggestions="querySearch"
+            value-key="search_key"
+            placeholder="Please Input"
+            @select="handleSelect"></el-autocomplete>
+      </el-form-item>
       <el-form-item>
         <h5>Potrzeby</h5>
         <b-row>
@@ -78,12 +87,18 @@
       return {
         people: null,
         speech: {
+          person: null,
           requirements: [],
           recommendations: []
         },
         requirementsCounter: 0,
         recommendationsCounter: 0
       }
+    },
+    async mounted() {
+      const result = await this.$axios.get('http://biconnect.herokuapp.com/people')
+      result.data.forEach(function(e) { e.search_key = e.first_name + ' ' + e.last_name; });
+      this.people = result.data
     },
     watch: {
       activeSpeechTableInd: function () {
@@ -93,6 +108,24 @@
       }
     },
     methods: {
+      querySearch(queryString, cb) {
+        const results = queryString ? this.people.filter(this.createFilter(queryString)) : this.people;
+        cb(results);
+      },
+      createFilter(queryString) {
+        return (people) => {
+          const name = people.first_name + ' ' + people.last_name
+          return (name.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+      },
+      handleSelect(item) {
+        console.log(item)
+        this.speech.person = {
+          first_name: item.first_name,
+          last_name: item.last_name,
+          username: item.username
+        }
+      },
       close: function () {
         if (this.unsavedChanges) {
           this.$swal({
