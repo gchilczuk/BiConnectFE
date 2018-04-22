@@ -26,9 +26,11 @@
         </el-button>
       </b-col>
       <b-col cols="*" class="text-right">
+       <a :href="'http://biconnect.herokuapp.com/groups/1/meetings/' + activeMeeting.id + '/note'">
         <el-button type="primary" plain>
           <i class="el-icon-document"></i> Generuj notatkę
         </el-button>
+       </a>
       </b-col>
     </b-row>
     <el-row>
@@ -104,7 +106,9 @@
         this.meetingDate = this.activeMeeting.date
       },
       applyChangeMeetingDate() {
-        this.$store.dispatch('meetings/updateMeetingDate', this.meetingDate)
+        const meetingId = this.activeMeeting.id
+        const meetingDate = this.meetingDate
+        this.$store.dispatch('meetings/updateMeetingDate', {meetingId, meetingDate})
         this.isMeetingDateDisabled = true
       }
     },

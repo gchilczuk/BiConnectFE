@@ -111,7 +111,7 @@ export const actions = {
     commit('SET_ACTIVE_MEETING_ENTITY_IND', entityIndex)
     return Promise.resolve()
   },
-  updateMeetingDate({commit}, date) {
-    console.log('tutaj będzie request czy cokolwiek..', date)
+  updateMeetingDate({commit}, {meetingId, meetingDate}) {
+    this.$axios.patch(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}`, {date: meetingDate})
   }
 }
