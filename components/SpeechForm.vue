@@ -104,7 +104,7 @@
     watch: {
       activeSpeechTableInd: function () {
         this.speech = this.$store.getters['meetings/activeSpeech']
-        this.personInput = this.speech.person.first_name + ' ' + this.speech.person.last_name,
+        this.personInput = this.speech.person && this.speech.person.first_name + ' ' + this.speech.person.last_name,
         this.requirementsCounter = this.speech && this.speech.requirements && this.speech.requirements.length
         this.recommendationsCounter = this.speech && this.speech.recommendations && this.speech.recommendations.length
       }
