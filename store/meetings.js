@@ -33,9 +33,6 @@ export const mutations = {
   SET_ACTIVE_SPEECH_ENTITY_IND(state, ind) {
     state.activeSpeechEntityInd = ind
   },
-  REMOVE_SPEECH(state, ind) {
-    state.meeting.speeches.pop()
-  },
   ADD_MEETING(state, meeting) {
     state.meetings.push(meeting)
   },
@@ -48,19 +45,16 @@ export const mutations = {
   SET_MEETING(state, meeting) {
     state.meeting = meeting
   },
+  SET_SPEECHES(state, speeches){
+    state.meeting.speeches = speeches
+  },
   SET_ACTIVE_MEETING_ENTITY_IND(state, meetingId) {
     state.meeting = state.meetings.find(me => me.id === meetingId)
     state.activeMeetingEntityInd = meetingId
     state.activeSpeechTableInd = null
   },
-  ADD_NEW_SPEECH(state) {
-    state.meeting.speeches.push({
-      id: state.meeting.speeches.length + 1,
-      name: '',
-      surname: '',
-      needs: [],
-      recommendations: []
-    });
+  ADD_SPEECH(state, speech) {
+    state.meeting.speeches.push(speech);
   }
 }
 
@@ -74,11 +68,16 @@ export const actions = {
   setActiveSpeech({commit}, speech) {
     commit('SET_ACTIVE_SPEECH', speech)
   },
-  addNewSpeech({commit}) {
-    commit('ADD_NEW_SPEECH')
+  async addSpeech({commit}, meetingId) {
+    const speech = await this.$axios.post(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches`)
+    commit('ADD_SPEECH', speech.data)
   },
-  removeSpeechById({commit}, ind) {
-    commit('REMOVE_SPEECH', ind)
+  async removeSpeechById({commit}, {meetingId, speechId}) {
+    await this.$axios.delete(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}`)
+    let speeches = await this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches`)
+    commit('SET_SPEECHES', speeches.data)
+
+    // dispatch('fetchMeeting', meetingId)
   },
   async updateSpeech({dispatch, commit}, {meetingId, speechId, speech}) {
     await this.$axios.put(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}`, speech)

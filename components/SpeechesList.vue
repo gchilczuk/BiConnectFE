@@ -72,7 +72,7 @@
     computed: {
       ...mapGetters({
         activeMeeting: 'meetings/activeMeeting',
-        activeSpeechTableIndex: 'meetings/activeSpeechTableInd'
+        activeSpeechTableIndex: 'meetings/activeSpeechTableInd',
       })
     },
     methods: {
@@ -87,11 +87,14 @@
           this.$emit('recreate-right-pane')
         }
       },
-      addSpeech() {
-        this.$store.dispatch('meetings/addNewSpeech')
+      async addSpeech() {
+        const meetingId = this.activeMeeting.id
+        this.$store.dispatch('meetings/addSpeech', meetingId)
       },
       handleDelete(index, row) {
-        this.$store.dispatch('meetings/removeSpeechById', index)
+        const meetingId = this.activeMeeting.id
+        const speechId = row.id
+        this.$store.dispatch('meetings/removeSpeechById', {meetingId, speechId})
       },
       changeMeetingDate() {
         this.isMeetingDateDisabled = false
