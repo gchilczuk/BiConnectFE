@@ -129,8 +129,7 @@
       },
       handleDelete(index, row) {
         this.$swal({
-            title: 'Czy jesteś pewny?',
-            text: "Usunąć wystąpienie " + row.person.first_name + " " + row.person.last_name + "?",
+            title: 'Czy jesteś pewny, że chcesz usunąć wystąpienie?',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
