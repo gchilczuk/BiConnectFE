@@ -128,8 +128,14 @@
         this.$store.dispatch('meetings/addSpeech', meetingId)
       },
       handleDelete(index, row) {
+        var txt = ""
+        if(row.person != null){
+          txt =  "Usunąć wystąpienie " + row.person.first_name + " " + row.person.last_name + "?"
+
+        }
         this.$swal({
             title: 'Czy jesteś pewny, że chcesz usunąć wystąpienie?',
+          text:txt,
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
