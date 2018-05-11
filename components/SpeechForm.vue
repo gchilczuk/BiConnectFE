@@ -1,29 +1,35 @@
 <template>
   <b-container class="mt-4">
-    <el-form label-width="120px" v-if="activeSpeechTableInd != null">
+    <el-form label-width="100px" v-if="activeSpeechTableInd != null">
       <b-row>
         <b-col>
           <el-form-item>
-            <el-button type="primary" @click="close">Zamknij</el-button>
+            <!--        <b-row  >
+              <b-col cols="5"> -->
+            <el-button type="success"  style="width: 100px; position: fixed; right: 5px" @click="updateSpeech"> Zapisz  </el-button>
+
+            <el-button type="info" style="width: 100px; position: fixed; right: 5px" @click="close">Zamknij</el-button>
+
+
+            <!--   </b-col>
+           <b-col  cols="5">
+
+               </b-col>
+            </b-row>-->
+
+
           </el-form-item>
         </b-col>
-        <b-col class="text-right">
-          <el-form-item>
-            <el-upload action="#">
-              <span class="mr-1">Użyj nagrania </span>
-              <el-button size="small" type="success" circle><i class="el-icon-upload el-icon-right"></i></el-button>
-            </el-upload>
-          </el-form-item>
-        </b-col>
+
       </b-row>
       <el-form-item label="Osoba ">
-          <el-autocomplete
-            class="inline-input"
-            v-model="personInput"
-            :fetch-suggestions="querySearch"
-            value-key="search_key"
-            placeholder="Please Input"
-            @select="handleSelect"></el-autocomplete>
+        <el-autocomplete
+          class="inline-input"
+          v-model="personInput"
+          :fetch-suggestions="querySearch"
+          value-key="search_key"
+          placeholder="Please Input"
+          @select="handleSelect"></el-autocomplete>
       </el-form-item>
       <el-form-item>
         <h5>Potrzeby</h5>
@@ -63,9 +69,7 @@
                   placeholder="Rekomendacja osoby prezentującej"/>
         <el-button type="primary" @click="removeRecommendation(number - 1)" size="small" plain>Usuń</el-button>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="updateSpeech">Zapisz</el-button>
-      </el-form-item>
+
     </el-form>
   </b-container>
 </template>
@@ -105,7 +109,7 @@
       activeSpeechTableInd: function () {
         this.speech = this.$store.getters['meetings/activeSpeech']
         this.personInput = this.speech.person && this.speech.person.first_name + ' ' + this.speech.person.last_name,
-        this.requirementsCounter = this.speech && this.speech.requirements && this.speech.requirements.length
+          this.requirementsCounter = this.speech && this.speech.requirements && this.speech.requirements.length
         this.recommendationsCounter = this.speech && this.speech.recommendations && this.speech.recommendations.length
       }
     },
