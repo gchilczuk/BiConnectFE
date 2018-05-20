@@ -4,20 +4,10 @@
       <b-row>
         <b-col>
           <el-form-item>
-            <!--        <b-row  >
-              <b-col cols="5"> -->
-            <el-button type="success"  style="width: 100px; position: fixed; right: 5px" @click="updateSpeech"> Zapisz  </el-button>
-
-            <el-button type="info" style="width: 100px; position: fixed; right: 5px" @click="close">Zamknij</el-button>
-
-
-            <!--   </b-col>
-           <b-col  cols="5">
-
-               </b-col>
-            </b-row>-->
-
-
+            <el-button type="success"  style="width: 100px; position: fixed; right: 5px; top:110px" @click="updateSpeech"> Zapisz  </el-button>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="info" style="width: 100px; position: fixed; right: 5px; top: 60px;" @click="close">Zamknij</el-button>
           </el-form-item>
         </b-col>
 
