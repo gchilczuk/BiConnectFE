@@ -186,7 +186,12 @@
       async updateSpeech() {
         const meetingId = this.activeMeetingEntityInd
         const speechId = this.activeSpeechEntityInd
-        const speech = this.speech
+        const speech = {
+          person: this.speech.person,
+          requirements: this.speech.requirements.filter(req => req.description !== ''),
+          recommendations: this.speech.recommendations.filter(rec => rec.description !== '')
+         }
+
         try {
           await this.$store.dispatch('meetings/updateSpeech', {
             meetingId: meetingId,
