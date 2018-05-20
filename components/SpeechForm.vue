@@ -29,7 +29,7 @@
                          plain>Nowa potrzeba</el-button>
             </span>
         </b-row>
-      </el-form-item>
+      </el-form-item >
       <el-form-item v-for="number in requirementsCounter" v-bind:key="'req_ex' + number"
                     v-bind:label="'Potrzeba ' + number">
         <el-input v-bind:key="'req_in' + number" name="needTextInput"
@@ -38,7 +38,8 @@
                   @change="dataChanged"
                   v-model="speech.requirements[number - 1].description"
                   placeholder="Potrzeba zgłoszona przez osobę prezentującą"
-        style="width: 550px"/>
+                  style="width: 500px"
+        />
         <el-button type="primary" @click="removeRequirement(number - 1)" size="small" plain>Usuń</el-button>
       </el-form-item>
       <el-form-item>
@@ -57,7 +58,8 @@
                   type="textarea"
                   @change="dataChanged"
                   v-model="speech.recommendations[number - 1].description"
-                  placeholder="Rekomendacja osoby prezentującej"/>
+                  placeholder="Rekomendacja osoby prezentującej"
+                  style="width: 500px"/>
         <el-button type="primary" @click="removeRecommendation(number - 1)" size="small" plain>Usuń</el-button>
       </el-form-item>
 
