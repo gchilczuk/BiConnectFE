@@ -101,6 +101,11 @@
       result.data.forEach(function(e) { e.search_key = e.first_name + ' ' + e.last_name; })
       this.people = result.data
     },
+    beforeMount(){
+      this.$store.dispatch('meetings/setUnsavedChanges', false)
+      this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
+      this.$emit('clearSelection')
+    },
     watch: {
       activeSpeechTableInd: function () {
         this.speech = this.$store.getters['meetings/activeSpeech']
