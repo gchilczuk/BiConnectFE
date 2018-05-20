@@ -24,8 +24,11 @@
           value-key="search_key"
           placeholder="Please Input"
           @select="handleSelect"></el-autocomplete>
+        <el-button type="primary" class="ml-2" @click="addNewPerson" size="small"
+                   plain>Dodaj gościa
+        </el-button>
       </el-form-item>
-      <button type="button" value="Dodaj persone" @click="addNewPerson"></button>
+
       <el-form-item>
         <h5>Potrzeby</h5>
         <b-row>
@@ -97,12 +100,8 @@
         recommendationsCounter: 0
       }
     },
-    async mounted() {
-      const result = await this.$axios.get('http://biconnect.herokuapp.com/people')
-      result.data.forEach(function (e) {
-        e.search_key = e.first_name + ' ' + e.last_name;
-      })
-      this.people = result.data
+    mounted() {
+      this.fetchPeople()
     },
     beforeMount() {
       this.$store.dispatch('meetings/setUnsavedChanges', false)
@@ -118,17 +117,15 @@
       }
     },
     methods: {
+      async fetchPeople() {
+        const result = await this.$axios.get('http://biconnect.herokuapp.com/people')
+        result.data.forEach(function (e) {
+          e.search_key = e.first_name + ' ' + e.last_name;
+        })
+        this.people = result.data
+      },
       addNewPerson() {
         this.$swal.mixin({
-          width: 600,
-          padding: '3em',
-          background: '#fff url(https://sweetalert2.github.io/images/trees.png)',
-          backdrop: `
-            rgba(0,0,123,0.4)
-            url("https://sweetalert2.github.io/images/nyan-cat.gif")
-            center left
-            no-repeat
-          `,
           input: 'text',
           confirmButtonText: 'Next &rarr;',
           showCancelButton: true,
@@ -147,20 +144,22 @@
             text: 'Podaj email'
           }
         ]).then((result) => {
-          this.$axios.post('http://biconnect.herokuapp.com/groups/1/persons', {
-            imie: result.value[0],
-            nazwisko: result.value[1],
+          this.$axios.post('http://biconnect.herokuapp.com/groups/1/people', {
+            first_name: result.value[0],
+            last_name: result.value[1],
             email: result.value[2]
-          });
-          if (result.value) {
+          }).then(() => {
             this.$swal({
-              title: 'Dodano ziomeczka!',
+              title: 'Dodano osobę',
               html:
               'Imię: ' + result.value[0] + ', Nazwisko: ' + result.value[1] + ', Email: ' + result.value[2],
-              confirmButtonText: 'Lovely!'
+              confirmButtonText: 'Ok'
             })
-          }
-        })      },
+            this.fetchPeople()
+          });
+
+        })
+      },
       querySearch(queryString, cb) {
         const results = queryString ? this.people.filter(this.createFilter(queryString)) : this.people
         cb(results);
