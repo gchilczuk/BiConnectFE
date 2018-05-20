@@ -37,7 +37,8 @@
                   type="textarea"
                   @change="dataChanged"
                   v-model="speech.requirements[number - 1].description"
-                  placeholder="Potrzeba zgłoszona przez osobę prezentującą"/>
+                  placeholder="Potrzeba zgłoszona przez osobę prezentującą"
+        style="width: 550px"/>
         <el-button type="primary" @click="removeRequirement(number - 1)" size="small" plain>Usuń</el-button>
       </el-form-item>
       <el-form-item>
