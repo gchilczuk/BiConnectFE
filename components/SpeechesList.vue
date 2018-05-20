@@ -129,6 +129,7 @@
       },
       handleDelete(index, row) {
         this.$swal({
+
           title: 'Czy jesteś pewny?',
           text: "Usunąć wystąpienie" + (row.person !== null ?
             " " + row.person.first_name + " " + row.person.last_name + "?" :
@@ -145,8 +146,16 @@
             const meetingId = this.activeMeeting.id
             const speechId = row.id
             this.$store.dispatch('meetings/removeSpeechById', {meetingId, speechId})
+            
+            let currentRow = this.activeMeeting.speeches.indexOf(row)
+              if (currentRow === this.activeSpeechTableIndex) {
+                this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
+                this.$store.dispatch('meetings/setActiveSpeechEntityInd', null)
+                this.clearTableSelection()
+              }
           }
         })
+
 
       },
       changeMeetingDate() {
