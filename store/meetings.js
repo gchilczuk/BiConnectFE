@@ -53,7 +53,7 @@ export const mutations = {
     state.activeSpeechTableInd = null
   },
   ADD_SPEECH(state, speech) {
-    state.meeting.speeches.push(speech)
+    state.meeting.speeches.unshift(speech)
   },
   SET_UNSAVED_CHANGES(state, booleanValue) {
     state.unsavedChanges = booleanValue
