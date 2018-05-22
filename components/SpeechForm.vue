@@ -153,6 +153,12 @@
               confirmButtonText: 'Ok'
             })
             this.fetchPeople()
+          }).catch(() => {
+            this.$notify({
+              title: 'Operacja się nie powiodła',
+              type: 'error',
+              duration: 2000
+            })
           });
 
         })
