@@ -164,7 +164,9 @@
       createFilter(queryString) {
         return (people) => {
           const name = people.first_name + ' ' + people.last_name
-          return (name.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+          const rev_name = people.last_name + ' ' + people.first_name
+          return (name.toLowerCase().indexOf(queryString.toLowerCase()) === 0) ||
+            (rev_name.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
         };
       },
       handleSelect(item) {
