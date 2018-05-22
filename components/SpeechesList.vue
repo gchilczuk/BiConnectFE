@@ -126,6 +126,9 @@
       addSpeech() {
         const meetingId = this.activeMeeting.id
         this.$store.dispatch('meetings/addSpeech', meetingId)
+          .then(() => {
+            this.$emit('forceReset')
+          })
       },
       handleDelete(index, row) {
         this.$swal({
@@ -146,7 +149,7 @@
             const meetingId = this.activeMeeting.id
             const speechId = row.id
             this.$store.dispatch('meetings/removeSpeechById', {meetingId, speechId})
-            
+
             let currentRow = this.activeMeeting.speeches.indexOf(row)
               if (currentRow === this.activeSpeechTableIndex) {
                 this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
