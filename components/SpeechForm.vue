@@ -17,13 +17,13 @@
         </b-col>
       </b-row>
       <el-form-item label="Osoba ">
-          <el-autocomplete
-            class="inline-input"
-            v-model="personInput"
-            :fetch-suggestions="querySearch"
-            value-key="search_key"
-            placeholder="Please Input"
-            @select="handleSelect"></el-autocomplete>
+        <el-autocomplete
+          class="inline-input"
+          v-model="personInput"
+          :fetch-suggestions="querySearch"
+          value-key="search_key"
+          placeholder="Please Input"
+          @select="handleSelect"></el-autocomplete>
       </el-form-item>
       <el-form-item>
         <h5>Potrzeby</h5>
@@ -31,6 +31,8 @@
             <span class="ml-3">
               <el-button type="primary" @click="addRequirement" size="small"
                          plain>Nowa potrzeba</el-button>
+              <el-button type="primary" @click="speechToTextStart('req_in')" size="small" plain>STT</el-button>
+              <el-button type="primary" @click="stopSTT" size="small" plain>Stop STT</el-button>
             </span>
         </b-row>
       </el-form-item>
@@ -50,6 +52,8 @@
             <span class="ml-3">
               <el-button type="primary" @click="addRecommendation" size="small"
                          plain>Nowa rekomendacja</el-button>
+              <el-button type="primary" @click="speechToTextStart('rec_in')" size="small" plain>STT</el-button>
+              <el-button type="primary" @click="stopSTT" size="small" plain>Stop STT</el-button>
             </span>
         </b-row>
       </el-form-item>
@@ -93,12 +97,15 @@
           recommendations: []
         },
         requirementsCounter: 0,
-        recommendationsCounter: 0
+        recommendationsCounter: 0,
+        recognition: null
       }
     },
     async mounted() {
       const result = await this.$axios.get('http://biconnect.herokuapp.com/people')
-      result.data.forEach(function(e) { e.search_key = e.first_name + ' ' + e.last_name; })
+      result.data.forEach(function (e) {
+        e.search_key = e.first_name + ' ' + e.last_name;
+      })
       this.people = result.data
     },
     beforeMount(){
@@ -110,7 +117,7 @@
       activeSpeechTableInd: function () {
         this.speech = this.$store.getters['meetings/activeSpeech']
         this.personInput = this.speech.person && this.speech.person.first_name + ' ' + this.speech.person.last_name,
-        this.requirementsCounter = this.speech && this.speech.requirements && this.speech.requirements.length
+          this.requirementsCounter = this.speech && this.speech.requirements && this.speech.requirements.length
         this.recommendationsCounter = this.speech && this.speech.recommendations && this.speech.recommendations.length
       }
     },
@@ -162,6 +169,7 @@
         this.speech.requirements.push({
           description: ''
         })
+        return this.requirementsCounter
       },
       removeRequirement(arrayIndex) {
         if (this.requirementsCounter > 0) {
@@ -175,6 +183,7 @@
         this.speech.recommendations.push({
           description: ''
         })
+        return this.recommendationsCounter
       },
       removeRecommendation(arrayIndex) {
         if (this.recommendationsCounter > 0) {
@@ -212,10 +221,72 @@
           })
         }
       },
-      dataChanged() {
+      dataChanged(elId) {
         if (!this.unsavedChanges) {
           this.$store.dispatch('meetings/setUnsavedChanges', true)
         }
+      },
+      speechToTextStart(element) {
+        let elId = null
+        let node = null
+        if (element === 'req_in') {
+          elId = this.addRequirement()
+          node = this.speech.requirements[elId - 1]
+        } else if (element === 'rec_in') {
+          elId = this.addRecommendation()
+          node = this.speech.recommendations[elId - 1]
+        }
+        try {
+          var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+          this.recognition = new SpeechRecognition();
+        }
+        catch (e) {
+          console.error(e);
+          this.$swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Przykro nam Twoja przeglądarka nie wspiera tej funkcjonalności!',
+          })
+          return
+        }
+        this.recognition.continuous = true;
+        this.recognition.onresult = function (event) {
+          var current = event.resultIndex;
+          var transcript = event.results[current][0].transcript;
+          var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+          if (!mobileRepeatBug) {
+            node.description += transcript
+          }
+        };
+        let self = this
+        this.recognition.onstart = function () {
+          self.$notify.info({
+            title: 'Info',
+            message: 'Rozpoznawanie głosowe aktywowane. Spróbuj powiedzieć coś do mikrofonu.'
+          });
+        }
+        this.recognition.onspeechend = function () {
+          self.$notify.info({
+            title: 'Info',
+            message: 'Ze względu na dłuższą ciszę rozpoznawanie głosowe zostało dezaktywowane.'
+          });
+        }
+        this.recognition.onerror = function (event) {
+          if (event.error == 'no-speech') {
+            self.$notify.info({
+              title: 'Info',
+              message: 'Nie wykryto mowy. Spróbuj ponownie.'
+            });
+          }
+        }
+        this.recognition.start();
+      },
+      stopSTT() {
+        this.recognition.stop();
+        this.$notify.info({
+          title: 'Info',
+          message: 'Rozpoznawanie głosowe zostało dezaktywowane.'
+        });
       }
     }
   }
