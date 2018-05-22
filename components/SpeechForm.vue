@@ -258,6 +258,16 @@
         if (!this.unsavedChanges) {
           this.$store.dispatch('meetings/setUnsavedChanges', true)
         }
+      },
+      reset() {
+        this.personInput = null,
+        this.speech = {
+            person: null,
+            requirements: [],
+            recommendations: []
+        }
+        this.requirementsCounter = 0,
+        this.recommendationsCounter = 0
       }
     }
   }

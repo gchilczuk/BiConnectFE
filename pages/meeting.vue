@@ -2,10 +2,10 @@
   <div>
     <b-row :no-gutters="true">
       <b-col cols="3.5">
-        <speeches-list ref="speechesList"/>
+        <speeches-list @forceReset="forceResetForm" ref="speechesList"/>
       </b-col>
       <b-col cols="8.5">
-        <speech-form @clearSelection="clearSelection"/>
+        <speech-form @clearSelection="clearSelection" ref="speechesForm"/>
       </b-col>
     </b-row>
   </div>
@@ -23,6 +23,9 @@
     methods: {
       clearSelection() {
         this.$refs.speechesList.clearTableSelection()
+      },
+      forceResetForm() {
+        this.$refs.speechesForm.reset()
       }
     }
 
