@@ -1,20 +1,16 @@
 <template>
   <b-container class="mt-4">
-    <el-form label-width="120px" v-if="activeSpeechTableInd != null">
+    <el-form label-width="100px" v-if="activeSpeechTableInd != null">
       <b-row>
         <b-col>
           <el-form-item>
-            <el-button type="primary" @click="close">Zamknij</el-button>
+            <el-button type="success"  style="width: 100px; position: fixed; right: 5px; top:110px" @click="updateSpeech"> Zapisz  </el-button>
           </el-form-item>
-        </b-col>
-        <b-col class="text-right">
           <el-form-item>
-            <el-upload action="#">
-              <span class="mr-1">Użyj nagrania </span>
-              <el-button size="small" type="success" circle><i class="el-icon-upload el-icon-right"></i></el-button>
-            </el-upload>
+            <el-button type="info" style="width: 100px; position: fixed; right: 5px; top: 60px;" @click="close">Zamknij</el-button>
           </el-form-item>
         </b-col>
+
       </b-row>
       <el-form-item label="Osoba ">
         <el-autocomplete
@@ -37,7 +33,7 @@
                          plain>Nowa potrzeba</el-button>
             </span>
         </b-row>
-      </el-form-item>
+      </el-form-item >
       <el-form-item v-for="number in requirementsCounter" v-bind:key="'req_ex' + number"
                     v-bind:label="'Potrzeba ' + number">
         <el-input v-bind:key="'req_in' + number" name="needTextInput"
@@ -45,7 +41,9 @@
                   type="textarea"
                   @change="dataChanged"
                   v-model="speech.requirements[number - 1].description"
-                  placeholder="Potrzeba zgłoszona przez osobę prezentującą"/>
+                  placeholder="Potrzeba zgłoszona przez osobę prezentującą"
+                  style="width: 500px"
+        />
         <el-button type="primary" @click="removeRequirement(number - 1)" size="small" plain>Usuń</el-button>
       </el-form-item>
       <el-form-item>
@@ -64,12 +62,11 @@
                   type="textarea"
                   @change="dataChanged"
                   v-model="speech.recommendations[number - 1].description"
-                  placeholder="Rekomendacja osoby prezentującej"/>
+                  placeholder="Rekomendacja osoby prezentującej"
+                  style="width: 500px"/>
         <el-button type="primary" @click="removeRecommendation(number - 1)" size="small" plain>Usuń</el-button>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="updateSpeech">Zapisz</el-button>
-      </el-form-item>
+
     </el-form>
   </b-container>
 </template>
