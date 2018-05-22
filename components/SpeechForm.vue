@@ -20,7 +20,11 @@
           value-key="search_key"
           placeholder="Please Input"
           @select="handleSelect"></el-autocomplete>
+        <el-button type="primary" class="ml-2" @click="addNewPerson" size="small"
+                   plain>Dodaj gościa
+        </el-button>
       </el-form-item>
+
       <el-form-item>
         <h5>Potrzeby</h5>
         <b-row>
@@ -93,20 +97,66 @@
         recommendationsCounter: 0
       }
     },
-    async mounted() {
-      const result = await this.$axios.get('http://biconnect.herokuapp.com/people')
-      result.data.forEach(function(e) { e.search_key = e.first_name + ' ' + e.last_name; })
-      this.people = result.data
+    mounted() {
+      this.fetchPeople()
+    },
+    beforeMount() {
+      this.$store.dispatch('meetings/setUnsavedChanges', false)
+      this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
+      this.$emit('clearSelection')
     },
     watch: {
       activeSpeechTableInd: function () {
         this.speech = this.$store.getters['meetings/activeSpeech']
-        this.personInput = this.speech.person && this.speech.person.first_name + ' ' + this.speech.person.last_name,
-          this.requirementsCounter = this.speech && this.speech.requirements && this.speech.requirements.length
+        this.personInput = this.speech.person && this.speech.person.first_name + ' ' + this.speech.person.last_name
+        this.requirementsCounter = this.speech && this.speech.requirements && this.speech.requirements.length
         this.recommendationsCounter = this.speech && this.speech.recommendations && this.speech.recommendations.length
       }
     },
     methods: {
+      async fetchPeople() {
+        const result = await this.$axios.get('http://biconnect.herokuapp.com/people')
+        result.data.forEach(function (e) {
+          e.search_key = e.first_name + ' ' + e.last_name;
+        })
+        this.people = result.data
+      },
+      addNewPerson() {
+        this.$swal.mixin({
+          input: 'text',
+          confirmButtonText: 'Next &rarr;',
+          showCancelButton: true,
+          progressSteps: ['1', '2', '3']
+        }).queue([
+          {
+            title: 'Imię',
+            text: 'Podaj imię'
+          },
+          {
+            title: 'Nazwisko',
+            text: 'Podaj nazwisko'
+          },
+          {
+            title: 'Email',
+            text: 'Podaj email'
+          }
+        ]).then((result) => {
+          this.$axios.post('http://biconnect.herokuapp.com/groups/1/people', {
+            first_name: result.value[0],
+            last_name: result.value[1],
+            email: result.value[2]
+          }).then(() => {
+            this.$swal({
+              title: 'Dodano osobę',
+              html:
+              'Imię: ' + result.value[0] + ', Nazwisko: ' + result.value[1] + ', Email: ' + result.value[2],
+              confirmButtonText: 'Ok'
+            })
+            this.fetchPeople()
+          });
+
+        })
+      },
       querySearch(queryString, cb) {
         const results = queryString ? this.people.filter(this.createFilter(queryString)) : this.people
         cb(results);
@@ -178,7 +228,12 @@
       async updateSpeech() {
         const meetingId = this.activeMeetingEntityInd
         const speechId = this.activeSpeechEntityInd
-        const speech = this.speech
+        const speech = {
+          person: this.speech.person,
+          requirements: this.speech.requirements.filter(req => req.description !== ''),
+          recommendations: this.speech.recommendations.filter(rec => rec.description !== '')
+        }
+
         try {
           await this.$store.dispatch('meetings/updateSpeech', {
             meetingId: meetingId,

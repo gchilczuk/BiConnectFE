@@ -26,11 +26,11 @@
         </el-button>
       </b-col>
       <b-col cols="*" class="text-right">
-       <a :href="'http://biconnect.herokuapp.com/groups/1/meetings/' + activeMeeting.id + '/note'">
-        <el-button type="primary" plain>
-          <i class="el-icon-document"></i> Generuj notatkę
-        </el-button>
-       </a>
+        <a :href="'http://biconnect.herokuapp.com/groups/1/meetings/' + activeMeeting.id + '/note'">
+          <el-button type="primary" plain>
+            <i class="el-icon-document"></i> Generuj notatkę
+          </el-button>
+        </a>
       </b-col>
     </b-row>
     <el-row>
@@ -129,22 +129,33 @@
       },
       handleDelete(index, row) {
         this.$swal({
-            title: 'Czy jesteś pewny?',
-            text: "Usunąć wystąpienie " + row.person.first_name + " " + row.person.last_name + "?",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Usuń',
-            cancelButtonText: 'Anuluj',
-            reverseButtons: true
-          }).then((result) => {
-            if (result.value) {
-              const meetingId = this.activeMeeting.id
-              const speechId = row.id
-              this.$store.dispatch('meetings/removeSpeechById', {meetingId, speechId})
-            }
-          })
+
+          title: 'Czy jesteś pewny?',
+          text: "Usunąć wystąpienie" + (row.person !== null ?
+            " " + row.person.first_name + " " + row.person.last_name + "?" :
+            "?"),
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Usuń',
+          cancelButtonText: 'Anuluj',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.value) {
+            const meetingId = this.activeMeeting.id
+            const speechId = row.id
+            this.$store.dispatch('meetings/removeSpeechById', {meetingId, speechId})
+            
+            let currentRow = this.activeMeeting.speeches.indexOf(row)
+              if (currentRow === this.activeSpeechTableIndex) {
+                this.$store.dispatch('meetings/setActiveSpeechTableInd', null)
+                this.$store.dispatch('meetings/setActiveSpeechEntityInd', null)
+                this.clearTableSelection()
+              }
+          }
+        })
+
 
       },
       changeMeetingDate() {

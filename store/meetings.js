@@ -53,7 +53,7 @@ export const mutations = {
     state.activeSpeechTableInd = null
   },
   ADD_SPEECH(state, speech) {
-    state.meeting.speeches.push(speech)
+    state.meeting.speeches.unshift(speech)
   },
   SET_UNSAVED_CHANGES(state, booleanValue) {
     state.unsavedChanges = booleanValue
@@ -70,9 +70,12 @@ export const actions = {
   setActiveSpeech({commit}, speech) {
     commit('SET_ACTIVE_SPEECH', speech)
   },
-  async addSpeech({commit}, meetingId) {
+  async addSpeech({commit, state}, meetingId) {
     const speech = await this.$axios.post(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches`)
     commit('ADD_SPEECH', speech.data)
+    let row = state.meeting.speeches.indexOf(speech.data)
+    commit('SET_ACTIVE_SPEECH_TABLE_IND', row)
+    commit('SET_ACTIVE_SPEECH_ENTITY_IND', speech.data.id)
   },
   async removeSpeechById({commit}, {meetingId, speechId}) {
     await this.$axios.delete(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}`)
