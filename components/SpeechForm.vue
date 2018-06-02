@@ -4,14 +4,18 @@
       <b-row>
         <b-col>
           <el-form-item>
-            <el-button type="success"  style="width: 100px; position: fixed; right: 5px; top:110px" @click="updateSpeech"> Zapisz  </el-button>
+            <el-button type="success" style="width: 100px; position: fixed; right: 5px; top:110px"
+                       @click="updateSpeech"> Zapisz
+            </el-button>
           </el-form-item>
           <el-form-item>
-            <el-button type="info" style="width: 100px; position: fixed; right: 5px; top: 60px;" @click="close">Zamknij</el-button>
+            <el-button type="info" style="width: 100px; position: fixed; right: 5px; top: 60px;" @click="close">
+              Zamknij
+            </el-button>
           </el-form-item>
         </b-col>
-
       </b-row>
+
       <el-form-item label="Osoba ">
         <el-autocomplete
           class="inline-input"
@@ -25,48 +29,53 @@
         </el-button>
       </el-form-item>
 
-      <el-form-item>
-        <h5>Potrzeby</h5>
-        <b-row>
-            <span class="ml-3">
-              <el-button type="primary" @click="addRequirement" size="small"
-                         plain>Nowa potrzeba</el-button>
-            </span>
-        </b-row>
-      </el-form-item >
-      <el-form-item v-for="number in requirementsCounter" v-bind:key="'req_ex' + number"
-                    v-bind:label="'Potrzeba ' + number">
-        <el-input v-bind:key="'req_in' + number" name="needTextInput"
-                  :autosize="{ minRows: 4}"
-                  type="textarea"
-                  @change="dataChanged"
-                  v-model="speech.requirements[number - 1].description"
-                  placeholder="Potrzeba zgłoszona przez osobę prezentującą"
-                  style="width: 500px"
-        />
-        <el-button type="primary" @click="removeRequirement(number - 1)" size="small" plain>Usuń</el-button>
-      </el-form-item>
-      <el-form-item>
-        <h5>Rekomendacje</h5>
-        <b-row>
-            <span class="ml-3">
-              <el-button type="primary" @click="addRecommendation" size="small"
-                         plain>Nowa rekomendacja</el-button>
-            </span>
-        </b-row>
-      </el-form-item>
-      <el-form-item v-for="number in recommendationsCounter" v-bind:key="'rec_ex' + number"
-                    v-bind:label="'Rekomendacja ' + number">
-        <el-input v-bind:key="'rec_in' + number" name="needTextInput"
-                  :autosize="{ minRows: 4}"
-                  type="textarea"
-                  @change="dataChanged"
-                  v-model="speech.recommendations[number - 1].description"
-                  placeholder="Rekomendacja osoby prezentującej"
-                  style="width: 500px"/>
-        <el-button type="primary" @click="removeRecommendation(number - 1)" size="small" plain>Usuń</el-button>
-      </el-form-item>
+      <b-row>
+        <b-col cols="12">
+        <el-form-item>
+          <h5>Opis firmy</h5>
+        </el-form-item>
+        <el-form-item>
+          <el-input name="business_description"
+                    :autosize="{ minRows: 3}"
+                    type="textarea"
+                    @change="dataChanged"
+                    placeholder="Opis firmy"
+          />
+        </el-form-item>
+        </b-col>
+      </b-row>
 
+      <b-row>
+        <b-col cols="6">
+          <el-form-item>
+            <h5>Potrzeba</h5>
+          </el-form-item>
+          <el-form-item>
+            <el-input name="needTextInput"
+                      :autosize="{ minRows: 6}"
+                      type="textarea"
+                      @change="dataChanged"
+                      v-model="requirement"
+                      placeholder="Potrzeba zgłoszona przez osobę prezentującą"
+                      style="width: 500px"
+            />
+          </el-form-item>
+        </b-col>
+        <b-col cols="6">
+          <el-form-item>
+            <h5>Rekomendacja</h5>
+          </el-form-item>
+          <el-form-item>
+            <el-input name="needTextInput"
+                      :autosize="{ minRows: 6}"
+                      type="textarea"
+                      @change="dataChanged"
+                      v-model="recommendation"
+                      placeholder="Rekomendacja osoby prezentującej"
+                      style="width: 500px"/>
+          </el-form-item>
+        </b-col>
+      </b-row>
     </el-form>
   </b-container>
 </template>
@@ -94,7 +103,9 @@
           recommendations: []
         },
         requirementsCounter: 0,
-        recommendationsCounter: 0
+        recommendationsCounter: 0,
+        requirement: '',
+        recommendation: ''
       }
     },
     mounted() {
@@ -111,6 +122,15 @@
         this.personInput = this.speech.person && this.speech.person.first_name + ' ' + this.speech.person.last_name
         this.requirementsCounter = this.speech && this.speech.requirements && this.speech.requirements.length
         this.recommendationsCounter = this.speech && this.speech.recommendations && this.speech.recommendations.length
+        this.requirement = ''
+        this.recommendation = ''
+        if (this.requirementsCounter !== 0) {
+          this.requirement = this.speech.requirements[0].description
+        }
+        if (this.recommendationsCounter !== 0) {
+          this.recommendation = this.speech.recommendations[0].description
+        }
+
       }
     },
     methods: {
@@ -234,6 +254,12 @@
         }
       },
       async updateSpeech() {
+        this.speech.requirements.push({
+          description: this.requirement
+        })
+        this.speech.recommendations.push({
+          description: this.recommendation
+        })
         const meetingId = this.activeMeetingEntityInd
         const speechId = this.activeSpeechEntityInd
         const speech = {
@@ -269,13 +295,15 @@
       },
       reset() {
         this.personInput = null,
-        this.speech = {
+          this.speech = {
             person: null,
             requirements: [],
             recommendations: []
-        }
+          }
         this.requirementsCounter = 0,
-        this.recommendationsCounter = 0
+        this.recommendationsCounter = 0,
+        this.requirement = '',
+        this.recommendation = ''
       }
     }
   }
