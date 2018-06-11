@@ -39,6 +39,7 @@
                     :autosize="{ minRows: 3}"
                     type="textarea"
                     @change="dataChanged"
+                    v-model="business_description.description"
                     placeholder="Opis firmy"
           />
         </el-form-item>
@@ -105,7 +106,10 @@
         requirementsCounter: 0,
         recommendationsCounter: 0,
         requirement: '',
-        recommendation: ''
+        recommendation: '',
+        business_description: {
+          description: ''
+        }
       }
     },
     mounted() {
@@ -125,10 +129,17 @@
         this.requirement = ''
         this.recommendation = ''
         if (this.requirementsCounter !== 0) {
-          this.requirement = this.speech.requirements[0].description
+          this.requirement = this.speech.requirements && this.speech.requirements[0].description
         }
         if (this.recommendationsCounter !== 0) {
-          this.recommendation = this.speech.recommendations[0].description
+          this.recommendation = this.speech.recommendations && this.speech.recommendations[0].description
+        }
+        if (this.speech.business_description === null) {
+          this.business_description = {
+            description: ''
+          }
+        } else {
+          this.business_description = this.speech.business_description
         }
 
       }
@@ -254,25 +265,26 @@
         }
       },
       async updateSpeech() {
-        this.speech.requirements.push({
+        this.speech.requirements = [{
           description: this.requirement
-        })
-        this.speech.recommendations.push({
+        }]
+        this.speech.recommendations = [{
           description: this.recommendation
-        })
+        }]
         const meetingId = this.activeMeetingEntityInd
         const speechId = this.activeSpeechEntityInd
         const speech = {
           person: this.speech.person,
           requirements: this.speech.requirements.filter(req => req.description !== ''),
-          recommendations: this.speech.recommendations.filter(rec => rec.description !== '')
+          recommendations: this.speech.recommendations.filter(rec => rec.description !== ''),
+          business_description: this.business_description
         }
 
         try {
           await this.$store.dispatch('meetings/updateSpeech', {
             meetingId: meetingId,
             speechId: speechId,
-            speech: speech
+            speech: speech,
           })
           this.$notify({
             title: 'Zapisano wystąpienie',
@@ -304,6 +316,9 @@
         this.recommendationsCounter = 0,
         this.requirement = '',
         this.recommendation = ''
+        this.business_description = {
+          description: ''
+        }
       }
     }
   }
