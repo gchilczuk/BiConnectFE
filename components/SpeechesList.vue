@@ -25,9 +25,9 @@
           <i class="el-icon-plus"></i> Dodaj nowe wystąpienie
         </el-button>
       </b-col>
-      <b-col cols="*" class="text-right">
+      <b-col cols="*" class="text-right" >
         <a :href="'http://biconnect.herokuapp.com/groups/1/meetings/' + activeMeeting.id + '/note'">
-          <el-button type="primary" plain>
+          <el-button type="primary" plain style="width: 175px">
             <i class="el-icon-document"></i> Generuj notatkę
           </el-button>
         </a>
@@ -35,7 +35,7 @@
     </b-row>
     <b-row align-h="between">
       <b-col cols="*">
-        <el-button @click="sendMessages" type="info" plain>
+        <el-button @click="sendMessages" type="info" plain style="margin-left: 400px; margin-top: 10px">
           <i class="el-icon-message"></i> Wyślij wiadomości
         </el-button>
       </b-col>
