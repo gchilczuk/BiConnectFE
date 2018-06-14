@@ -33,7 +33,14 @@
         </a>
       </b-col>
     </b-row>
-    <el-row>
+    <b-row align-h="between">
+      <b-col cols="*">
+        <el-button @click="sendMessages" type="info" plain>
+          <i class="el-icon-message"></i> Wyślij wiadomości
+        </el-button>
+      </b-col>
+    </b-row >
+    <el-row >
       <el-table
         ref="speechTable"
         :row-class-name="tableRowClassName"
@@ -130,6 +137,11 @@
             this.$emit('forceReset')
           })
       },
+
+      sendMessages() {
+
+      },
+
       handleDelete(index, row) {
         this.$swal({
 
