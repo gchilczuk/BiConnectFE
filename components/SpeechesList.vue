@@ -138,10 +138,6 @@
           })
       },
 
-      sendMessages() {
-
-      },
-
       handleDelete(index, row) {
         this.$swal({
 
@@ -185,7 +181,11 @@
         const meetingDate = this.meetingDate
         this.$store.dispatch('meetings/updateMeetingDate', {meetingId, meetingDate})
         this.isMeetingDateDisabled = true
-      }
+      },
+
+      async sendMessages() {
+        await this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings/'+ this.activeMeeting.id +'/speeches/send_mails')
+      },
     },
     mounted() {
       this.meetingDate = this.activeMeeting.date
