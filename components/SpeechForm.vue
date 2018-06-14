@@ -126,7 +126,7 @@
           input: 'text',
           confirmButtonText: 'Next &rarr;',
           showCancelButton: true,
-          progressSteps: ['1', '2', '3']
+          progressSteps: ['1', '2']
         }).queue([
           {
             title: 'Imię i nazwisko',
