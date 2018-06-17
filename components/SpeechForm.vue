@@ -30,7 +30,7 @@
       </el-form-item>
 
       <b-row>
-        <b-col cols="12">
+        <b-col cols="6">
         <el-form-item>
           <h5>Opis firmy</h5>
         </el-form-item>
@@ -46,8 +46,8 @@
         </b-col>
       </b-row>
 
-      <b-row>
-        <b-col cols="6">
+      <el-row>
+        <el-col :span="12">
           <el-form-item>
             <h5>Potrzeba</h5>
           </el-form-item>
@@ -58,11 +58,10 @@
                       @change="dataChanged"
                       v-model="requirement"
                       placeholder="Potrzeba zgłoszona przez osobę prezentującą"
-                      style="width: 500px"
             />
           </el-form-item>
-        </b-col>
-        <b-col cols="6">
+        </el-col>
+        <el-col :span="12">
           <el-form-item>
             <h5>Rekomendacja</h5>
           </el-form-item>
@@ -72,11 +71,10 @@
                       type="textarea"
                       @change="dataChanged"
                       v-model="recommendation"
-                      placeholder="Rekomendacja osoby prezentującej"
-                      style="width: 500px"/>
+                      placeholder="Rekomendacja osoby prezentującej" />
           </el-form-item>
-        </b-col>
-      </b-row>
+        </el-col>
+      </el-row>
     </el-form>
   </b-container>
 </template>
@@ -157,30 +155,27 @@
           input: 'text',
           confirmButtonText: 'Next &rarr;',
           showCancelButton: true,
-          progressSteps: ['1', '2', '3']
+          progressSteps: ['1', '2']
         }).queue([
           {
-            title: 'Imię',
-            text: 'Podaj imię'
-          },
-          {
-            title: 'Nazwisko',
-            text: 'Podaj nazwisko'
+            title: 'Imię i nazwisko',
+            text: 'Podaj imię i nazwisko'
           },
           {
             title: 'Email',
             text: 'Podaj email'
           }
         ]).then((result) => {
+
           this.$axios.post('http://biconnect.herokuapp.com/groups/1/people', {
-            first_name: result.value[0],
-            last_name: result.value[1],
-            email: result.value[2]
+            first_name: result.value[0].split(" ")[0],
+            last_name: result.value[0].split(" ")[1],
+            email: result.value[1]
           }).then(() => {
             this.$swal({
               title: 'Dodano osobę',
               html:
-              'Imię: ' + result.value[0] + ', Nazwisko: ' + result.value[1] + ', Email: ' + result.value[2],
+              'Imię: ' + result.value[0].split(" ")[0] + ', Nazwisko: ' + result.value[0].split(" ")[1] + ', Email: ' + result.value[1],
               confirmButtonText: 'Ok'
             })
             this.fetchPeople()

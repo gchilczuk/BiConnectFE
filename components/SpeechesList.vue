@@ -25,15 +25,22 @@
           <i class="el-icon-plus"></i> Dodaj nowe wystąpienie
         </el-button>
       </b-col>
-      <b-col cols="*" class="text-right">
+      <b-col cols="*" class="text-right" >
         <a :href="'http://biconnect.herokuapp.com/groups/1/meetings/' + activeMeeting.id + '/note'">
-          <el-button type="primary" plain>
+          <el-button type="primary" plain style="width: 175px">
             <i class="el-icon-document"></i> Generuj notatkę
           </el-button>
         </a>
       </b-col>
     </b-row>
-    <el-row>
+    <b-row align-h="between">
+      <b-col cols="*">
+        <el-button @click="sendMessages" type="info" plain style="margin-left: 400px; margin-top: 10px">
+          <i class="el-icon-message"></i> Wyślij wiadomości
+        </el-button>
+      </b-col>
+    </b-row >
+    <el-row >
       <el-table
         ref="speechTable"
         :row-class-name="tableRowClassName"
@@ -130,6 +137,7 @@
             this.$emit('forceReset')
           })
       },
+
       handleDelete(index, row) {
         this.$swal({
 
@@ -173,7 +181,11 @@
         const meetingDate = this.meetingDate
         this.$store.dispatch('meetings/updateMeetingDate', {meetingId, meetingDate})
         this.isMeetingDateDisabled = true
-      }
+      },
+
+       sendMessages() {
+         this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings/'+ this.activeMeeting.id +'/speeches/send_mails')
+      },
     },
     mounted() {
       this.meetingDate = this.activeMeeting.date
