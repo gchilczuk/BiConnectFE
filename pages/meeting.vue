@@ -1,10 +1,10 @@
 <template>
   <div>
     <b-row :no-gutters="true">
-      <b-col cols="3.5">
+      <b-col cols="4">
         <speeches-list @forceReset="forceResetForm" ref="speechesList"/>
       </b-col>
-      <b-col cols="8.5">
+      <b-col cols="8">
         <speech-form @clearSelection="clearSelection" ref="speechesForm"/>
       </b-col>
     </b-row>
