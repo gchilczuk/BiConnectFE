@@ -33,7 +33,7 @@
         </a>
       </b-col>
     </b-row>
-    <b-row align-h="between">
+    <b-row align-h="end">
       <b-col cols="*">
         <el-button @click="sendMessages" type="info" plain style="margin-left: 400px; margin-top: 10px">
           <i class="el-icon-message"></i> Wyślij wiadomości
