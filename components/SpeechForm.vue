@@ -30,7 +30,7 @@
       </el-form-item>
 
       <b-row>
-        <b-col cols="12">
+        <b-col cols="6">
         <el-form-item>
           <h5>Opis firmy</h5>
         </el-form-item>
@@ -46,8 +46,8 @@
         </b-col>
       </b-row>
 
-      <b-row>
-        <b-col cols="6">
+      <el-row>
+        <el-col :span="12">
           <el-form-item>
             <h5>Potrzeba</h5>
           </el-form-item>
@@ -58,11 +58,10 @@
                       @change="dataChanged"
                       v-model="requirement"
                       placeholder="Potrzeba zgłoszona przez osobę prezentującą"
-                      style="width: 500px"
             />
           </el-form-item>
-        </b-col>
-        <b-col cols="6">
+        </el-col>
+        <el-col :span="12">
           <el-form-item>
             <h5>Rekomendacja</h5>
           </el-form-item>
@@ -72,11 +71,10 @@
                       type="textarea"
                       @change="dataChanged"
                       v-model="recommendation"
-                      placeholder="Rekomendacja osoby prezentującej"
-                      style="width: 500px"/>
+                      placeholder="Rekomendacja osoby prezentującej" />
           </el-form-item>
-        </b-col>
-      </b-row>
+        </el-col>
+      </el-row>
     </el-form>
   </b-container>
 </template>
