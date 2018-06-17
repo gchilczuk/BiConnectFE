@@ -16,7 +16,7 @@
                       type="textarea"
                       v-model="business_description.description"
                       placeholder="Opis firmy"
-                      :disabled="disabled"
+                      :disabled="disabled || speech.confirmed"
                       @input="changes = true"
             />
           </el-form-item>
@@ -35,7 +35,7 @@
                       v-model="requirement"
                       placeholder="Potrzeba zgłoszona przez osobę prezentującą"
                       style="width: 500px"
-                      :disabled="disabled"
+                      :disabled="disabled || speech.confirmed"
                       @input="changes = true"
             />
           </el-form-item>
@@ -51,7 +51,7 @@
                       v-model="recommendation"
                       placeholder="Rekomendacja osoby prezentującej"
                       style="width: 500px"
-                      :disabled="disabled"
+                      :disabled="disabled || speech.confirmed"
                       @input="changes = true"/>
           </el-form-item>
         </b-col>
@@ -61,11 +61,11 @@
           <el-form-item>
             <el-button :type="disabled || !changes ? 'info' : 'success'"
                        @click="updateSpeech"
-                        :disabled="disabled || !changes"> Akceptuj ze zmianami
+                        :disabled="disabled || !changes || speech.confirmed"> Akceptuj ze zmianami
             </el-button>
             <el-button :type="disabled || changes ? 'info' : 'success'"
                        @click="close"
-                       :disabled="disabled || changes">
+                       :disabled="disabled || changes || speech.confirmed">
               Akceptuj bez zmian
             </el-button>
           </el-form-item>
@@ -84,7 +84,8 @@
       return {
         speech: {
           requirements: [],
-          recommendations: []
+          recommendations: [],
+          confirmed:	false
         },
         requirement: '',
         recommendation: '',
@@ -92,7 +93,7 @@
           description: ''
         },
         disabled: false,
-        changes: false
+        changes: false,
       }
     },
     computed: {
@@ -128,11 +129,24 @@
     },
     methods: {
       close() {
-        this.$notify({
-          title: 'Potwierdzono wypowiedź',
-          type: 'success',
-          duration: 2000
-        })
+        try {
+          let meetingId = this.$route.query.m;
+          let speechId = this.$route.query.s;
+          this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}/confirm`)
+
+          this.$notify({
+            title: 'Potwierdzono wypowiedź',
+            type: 'success',
+            duration: 2000
+          })
+          this.disabled = true
+        } catch (error) {
+          this.$notify({
+            title: 'Wystąpił błąd podczas zapisu danych',
+            type: 'error',
+            duration: 2000
+          })
+        }
         this.disabled = true
       },
       async updateSpeech() {
@@ -162,7 +176,6 @@
             type: 'success',
             duration: 2000
           })
-          this.$store.dispatch('meetings/setUnsavedChanges', false)
           this.disabled = true
         } catch (error) {
           this.$notify({
