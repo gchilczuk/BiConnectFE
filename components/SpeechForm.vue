@@ -155,30 +155,27 @@
           input: 'text',
           confirmButtonText: 'Next &rarr;',
           showCancelButton: true,
-          progressSteps: ['1', '2', '3']
+          progressSteps: ['1', '2']
         }).queue([
           {
-            title: 'Imię',
-            text: 'Podaj imię'
-          },
-          {
-            title: 'Nazwisko',
-            text: 'Podaj nazwisko'
+            title: 'Imię i nazwisko',
+            text: 'Podaj imię i nazwisko'
           },
           {
             title: 'Email',
             text: 'Podaj email'
           }
         ]).then((result) => {
+
           this.$axios.post('http://biconnect.herokuapp.com/groups/1/people', {
-            first_name: result.value[0],
-            last_name: result.value[1],
-            email: result.value[2]
+            first_name: result.value[0].split(" ")[0],
+            last_name: result.value[0].split(" ")[1],
+            email: result.value[1]
           }).then(() => {
             this.$swal({
               title: 'Dodano osobę',
               html:
-              'Imię: ' + result.value[0] + ', Nazwisko: ' + result.value[1] + ', Email: ' + result.value[2],
+              'Imię: ' + result.value[0].split(" ")[0] + ', Nazwisko: ' + result.value[0].split(" ")[1] + ', Email: ' + result.value[1],
               confirmButtonText: 'Ok'
             })
             this.fetchPeople()
