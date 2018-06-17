@@ -183,8 +183,8 @@
         this.isMeetingDateDisabled = true
       },
 
-      async sendMessages() {
-        await this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings/'+ this.activeMeeting.id +'/speeches/send_mails')
+       sendMessages() {
+         this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings/'+ this.activeMeeting.id +'/speeches/send_mails')
       },
     },
     mounted() {
