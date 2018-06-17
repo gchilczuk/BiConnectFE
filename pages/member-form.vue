@@ -128,7 +128,7 @@
         })
     },
     methods: {
-      close() {
+      async close() {
         try {
           let meetingId = this.$route.query.m;
           let speechId = this.$route.query.s;
@@ -171,6 +171,7 @@
             speechId: speechId,
             speech: speech,
           })
+          this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}/confirm`)
           this.$notify({
             title: 'Zapisano zmiany',
             type: 'success',
