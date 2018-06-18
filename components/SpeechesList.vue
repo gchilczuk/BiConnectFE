@@ -26,7 +26,7 @@
         </el-button>
       </b-col>
       <b-col cols="*" class="text-right" >
-        <a :href="'http://biconnect.herokuapp.com/groups/1/meetings/' + activeMeeting.id + '/note'">
+        <a :href="'http://0.0.0.0:8000/groups/1/meetings/' + activeMeeting.id + '/note'">
           <el-button type="primary" plain style="width: 175px">
             <i class="el-icon-document"></i> Generuj notatkę
           </el-button>
@@ -184,7 +184,7 @@
       },
 
        sendMessages() {
-         this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings/'+ this.activeMeeting.id +'/speeches/send_mails')
+         this.$axios.get('http://0.0.0.0:8000/groups/1/meetings/'+ this.activeMeeting.id +'/speeches/send_mails')
       },
     },
     mounted() {

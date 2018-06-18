@@ -71,43 +71,43 @@ export const actions = {
     commit('SET_ACTIVE_SPEECH', speech)
   },
   async addSpeech({commit, state}, meetingId) {
-    const speech = await this.$axios.post(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches`)
+    const speech = await this.$axios.post(`http://0.0.0.0:8000/groups/1/meetings/${meetingId}/speeches`)
     commit('ADD_SPEECH', speech.data)
     let row = state.meeting.speeches.indexOf(speech.data)
     commit('SET_ACTIVE_SPEECH_TABLE_IND', row)
     commit('SET_ACTIVE_SPEECH_ENTITY_IND', speech.data.id)
   },
   async removeSpeechById({commit}, {meetingId, speechId}) {
-    await this.$axios.delete(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}`)
-    let speeches = await this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches`)
+    await this.$axios.delete(`http://0.0.0.0:8000/groups/1/meetings/${meetingId}/speeches/${speechId}`)
+    let speeches = await this.$axios.get(`http://0.0.0.0:8000/groups/1/meetings/${meetingId}/speeches`)
     commit('SET_SPEECHES', speeches.data)
   },
   async updateSpeech({dispatch, commit}, {meetingId, speechId, speech}) {
-    await this.$axios.put(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}`, speech)
+    await this.$axios.put(`http://0.0.0.0:8000/groups/1/meetings/${meetingId}/speeches/${speechId}`, speech)
     dispatch('fetchMeeting', meetingId)
     return Promise.resolve()
   },
   async addMeeting({dispatch, commit}, date) {
-    await this.$axios.post('http://biconnect.herokuapp.com/groups/1/meetings', {
+    await this.$axios.post('http://0.0.0.0:8000/groups/1/meetings', {
       date: date
     })
     dispatch('fetchMeetings')
   },
   async fetchMeetings({commit}) {
-    const meetings = await this.$axios.get('http://biconnect.herokuapp.com/groups/1/meetings')
+    const meetings = await this.$axios.get('http://0.0.0.0:8000/groups/1/meetings')
     commit('SET_MEETINGS', meetings.data)
   },
   async fetchPeople({commit}) {
-    const people = await this.$axios.get('http://biconnect.herokuapp.com/people')
+    const people = await this.$axios.get('http://0.0.0.0:8000/people')
     commit('SET_PEOPLE', people.data)
   },
   async removeMeeting({dispatch, commit}, index) {
-    await this.$axios.delete(`http://biconnect.herokuapp.com/groups/1/meetings/${index}`)
+    await this.$axios.delete(`http://0.0.0.0:8000/groups/1/meetings/${index}`)
     dispatch('fetchMeetings')
   },
   async fetchMeeting({commit, getters}, index) {
     try {
-      let meeting = await this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${index}`)
+      let meeting = await this.$axios.get(`http://0.0.0.0:8000/groups/1/meetings/${index}`)
       commit('SET_MEETING', meeting.data)
       return Promise.resolve()
     } catch (error) {
@@ -122,7 +122,7 @@ export const actions = {
     commit('SET_CURR_MEETING', ind)
   },
   updateMeetingDate({commit}, {meetingId, meetingDate}) {
-    this.$axios.patch(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}`, {date: meetingDate})
+    this.$axios.patch(`http://0.0.0.0:8000/groups/1/meetings/${meetingId}`, {date: meetingDate})
   },
   setUnsavedChanges({commit}, booleanValue) {
     commit('SET_UNSAVED_CHANGES', booleanValue)
