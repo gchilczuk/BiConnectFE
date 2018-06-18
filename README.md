@@ -9,7 +9,7 @@ Każde wystąpienie składa się z opisu działalności, opisu potrzeb i rekomen
 
 ### Instrukcja obsługi
 
-1. Wejdz w panel „Spotkania”
+1. Wejdź w panel „Spotkania”
 2. Wybierz istniejące spotkanie lub dodaj nowe z wybraną datą
 3. Możesz dodać nowe wystąpienie lub edytować istniejące - wybór w panelu po lewej stronie
 4. Treść wystąpienia wprowadzana jest w panelu po prawej stronie
@@ -21,7 +21,7 @@ oraz linkiem do formularza umożliwiającego edycję / zatwierdzenie wystąpieni
 
 ### Technologie
 
-https://vuejs.org/
+[Vue.js](https://vuejs.org/)
 
 Szczegółowy spis znajduje się w pliku `package.json`
 
