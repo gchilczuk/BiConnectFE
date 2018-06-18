@@ -144,7 +144,7 @@
     },
     methods: {
       async fetchPeople() {
-        const result = await this.$axios.get('http://biconnect.herokuapp.com/people')
+        const result = await this.$axios.get('http://0.0.0.0:8000/people')
         result.data.forEach(function (e) {
           e.search_key = e.first_name + ' ' + e.last_name;
         })
@@ -167,7 +167,7 @@
           }
         ]).then((result) => {
 
-          this.$axios.post('http://biconnect.herokuapp.com/groups/1/people', {
+          this.$axios.post('http://0.0.0.0:8000/groups/1/people', {
             first_name: result.value[0].split(" ")[0],
             last_name: result.value[0].split(" ")[1],
             email: result.value[1]

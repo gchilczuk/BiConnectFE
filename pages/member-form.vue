@@ -107,7 +107,7 @@
     mounted() {
       let meetingId = this.$route.query.m;
       let speechId = this.$route.query.s;
-      this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}`)
+      this.$axios.get(`http://0.0.0.0:8000/groups/1/meetings/${meetingId}/speeches/${speechId}`)
         .then((res) => {
           this.speech = res.data
           this.requirement = ''
@@ -132,7 +132,7 @@
         try {
           let meetingId = this.$route.query.m;
           let speechId = this.$route.query.s;
-          this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}/confirm`)
+          this.$axios.get(`http://0.0.0.0:8000/groups/1/meetings/${meetingId}/speeches/${speechId}/confirm`)
 
           this.$notify({
             title: 'Potwierdzono wypowiedź',
@@ -171,7 +171,7 @@
             speechId: speechId,
             speech: speech,
           })
-          this.$axios.get(`http://biconnect.herokuapp.com/groups/1/meetings/${meetingId}/speeches/${speechId}/confirm`)
+          this.$axios.get(`http://0.0.0.0:8000/groups/1/meetings/${meetingId}/speeches/${speechId}/confirm`)
           this.$notify({
             title: 'Zapisano zmiany',
             type: 'success',
